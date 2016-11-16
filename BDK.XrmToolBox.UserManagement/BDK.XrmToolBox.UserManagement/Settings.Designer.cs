@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BDK.XrmToolBox.UserManagement {
+namespace BDK.XrmToolBox.UserAuditViewer {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace BDK.XrmToolBox.UserManagement {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BDK.XrmToolBox.UserManagement.Settings", typeof(Settings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BDK.XrmToolBox.UserAuditViewer.Settings", typeof(Settings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

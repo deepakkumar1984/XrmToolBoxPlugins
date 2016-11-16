@@ -1,4 +1,4 @@
-﻿namespace BDK.XrmToolBox.UserManagement
+﻿namespace BDK.XrmToolBox.UserAuditViewer
 {
     partial class InactiveUsers
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.showInactiveUsers1 = new BDK.XrmToolBox.UserManagement.ShowInactiveUsers();
+            this.showInactiveUsers1 = new BDK.XrmToolBox.UserAuditViewer.ShowInactiveUsers();
             this.SuspendLayout();
             // 
             // showInactiveUsers1

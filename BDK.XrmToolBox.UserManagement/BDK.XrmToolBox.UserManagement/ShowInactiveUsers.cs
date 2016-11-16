@@ -11,10 +11,10 @@ using XrmToolBox.Extensibility;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
-using BDK.XrmToolBox.UserManagement.Model;
+using BDK.XrmToolBox.UserAuditViewer.Model;
 using DocumentFormat.OpenXml.Packaging;
 
-namespace BDK.XrmToolBox.UserManagement
+namespace BDK.XrmToolBox.UserAuditViewer
 {
     public partial class ShowInactiveUsers : PluginControlBase
     {

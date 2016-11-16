@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>BDK.XrmToolBox.UserAuditViewer</id>
+        <version>1.0.1</version>
+        <title>User Audit Viewer</title>
+        <authors>Deepak Battini</authors>
+        <projectUrl>https://github.com/deepakkumar1984/XrmToolBoxPlugins</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>View CRM Users, their audit activity and find users who last logged-in</description>
+        <language>en-US</language>
+        <tags>XrmToolBox Plugin User Audit Viewer</tags>
+        <dependencies>
+            <dependency id="XrmToolBox" version="1.2015.7.6" />
+        </dependencies>
+    </metadata>
+</package>

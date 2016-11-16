@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="CRMUser" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>BDK.XrmToolBox.UserManagement.Model.CRMUser, BDK.XrmToolBox.UserManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+   <TypeInfo>BDK.XrmToolBox.UserAuditViewer.Model.CRMUser, BDK.XrmToolBox.UserAuditViewer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
 </GenericObjectDataSource>

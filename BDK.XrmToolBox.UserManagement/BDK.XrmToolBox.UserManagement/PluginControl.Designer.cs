@@ -1,4 +1,4 @@
-﻿namespace BDK.XrmToolBox.UserManagement
+﻿namespace BDK.XrmToolBox.UserAuditViewer
 {
     partial class PluginControl
     {
@@ -84,7 +84,7 @@
             // btnClose
             // 
             this.btnClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClose.Image = global::BDK.XrmToolBox.UserManagement.Properties.Resources.Delete;
+            this.btnClose.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.Delete;
             this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(23, 22);
@@ -98,7 +98,7 @@
             // 
             // btnLoadViews
             // 
-            this.btnLoadViews.Image = global::BDK.XrmToolBox.UserManagement.Properties.Resources.AssemblySelected;
+            this.btnLoadViews.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.AssemblySelected;
             this.btnLoadViews.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadViews.Name = "btnLoadViews";
             this.btnLoadViews.Size = new System.Drawing.Size(86, 22);
@@ -107,7 +107,7 @@
             // 
             // menuInactiveUsers
             // 
-            this.menuInactiveUsers.Image = global::BDK.XrmToolBox.UserManagement.Properties.Resources.Organization;
+            this.menuInactiveUsers.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.Organization;
             this.menuInactiveUsers.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuInactiveUsers.Name = "menuInactiveUsers";
             this.menuInactiveUsers.Size = new System.Drawing.Size(99, 22);
@@ -119,7 +119,7 @@
             this.menuExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loginHistoryToolStripMenuItem,
             this.transactionToolStripMenuItem});
-            this.menuExport.Image = global::BDK.XrmToolBox.UserManagement.Properties.Resources.UninstallProfiler;
+            this.menuExport.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.UninstallProfiler;
             this.menuExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuExport.Name = "menuExport";
             this.menuExport.Size = new System.Drawing.Size(72, 22);
@@ -163,7 +163,7 @@
             // 
             // cRMUserBindingSource
             // 
-            this.cRMUserBindingSource.DataSource = typeof(BDK.XrmToolBox.UserManagement.Model.CRMUser);
+            this.cRMUserBindingSource.DataSource = typeof(BDK.XrmToolBox.UserAuditViewer.Model.CRMUser);
             // 
             // tabControl1
             // 
@@ -229,7 +229,7 @@
             // 
             // auditUserLoginBindingSource
             // 
-            this.auditUserLoginBindingSource.DataSource = typeof(BDK.XrmToolBox.UserManagement.Model.AuditUserLogin);
+            this.auditUserLoginBindingSource.DataSource = typeof(BDK.XrmToolBox.UserAuditViewer.Model.AuditUserLogin);
             // 
             // tabTransactions
             // 
@@ -300,7 +300,7 @@
             // 
             // auditTransactionBindingSource
             // 
-            this.auditTransactionBindingSource.DataSource = typeof(BDK.XrmToolBox.UserManagement.Model.AuditTransaction);
+            this.auditTransactionBindingSource.DataSource = typeof(BDK.XrmToolBox.UserAuditViewer.Model.AuditTransaction);
             // 
             // saveFile
             // 

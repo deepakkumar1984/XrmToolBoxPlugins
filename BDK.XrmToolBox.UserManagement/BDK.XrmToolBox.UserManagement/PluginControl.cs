@@ -11,11 +11,11 @@ using XrmToolBox.Extensibility;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
-using BDK.XrmToolBox.UserManagement.Model;
+using BDK.XrmToolBox.UserAuditViewer.Model;
 using DocumentFormat.OpenXml.Packaging;
 using XrmToolBox.Extensibility.Interfaces;
 
-namespace BDK.XrmToolBox.UserManagement
+namespace BDK.XrmToolBox.UserAuditViewer
 {
     public partial class PluginControl : PluginControlBase, IGitHubPlugin, IPayPalPlugin
     {
@@ -23,7 +23,7 @@ namespace BDK.XrmToolBox.UserManagement
         {
             get
             {
-                return "https://github.com/deepakkumar1984/XrmToolBoxPlugins";
+                return "XrmToolBoxPlugins";
             }
         }
 
@@ -401,7 +401,7 @@ namespace BDK.XrmToolBox.UserManagement
 
         private void menuInactiveUsers_Click(object sender, EventArgs e)
         {
-            InactiveUsers form = new UserManagement.InactiveUsers(this.Service);
+            InactiveUsers form = new InactiveUsers(this.Service);
             form.ShowDialog();
         }
     }

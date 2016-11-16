@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BDK.XrmToolBox.UserManagement
+namespace BDK.XrmToolBox.UserAuditViewer
 {
     public enum AuditAction
     {

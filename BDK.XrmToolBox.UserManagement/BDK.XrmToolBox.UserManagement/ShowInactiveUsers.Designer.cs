@@ -1,4 +1,4 @@
-﻿namespace BDK.XrmToolBox.UserManagement
+﻿namespace BDK.XrmToolBox.UserAuditViewer
 {
     partial class ShowInactiveUsers
     {
@@ -94,7 +94,7 @@
             // 
             // btnExport
             // 
-            this.btnExport.Image = global::BDK.XrmToolBox.UserManagement.Properties.Resources.UninstallProfiler;
+            this.btnExport.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.UninstallProfiler;
             this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnExport.Location = new System.Drawing.Point(671, 38);
             this.btnExport.Name = "btnExport";
@@ -110,7 +110,7 @@
             // 
             // cRMUserBindingSource
             // 
-            this.cRMUserBindingSource.DataSource = typeof(BDK.XrmToolBox.UserManagement.Model.CRMUser);
+            this.cRMUserBindingSource.DataSource = typeof(BDK.XrmToolBox.UserAuditViewer.Model.CRMUser);
             // 
             // nameDataGridViewTextBoxColumn
             // 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BDK.XrmToolBox.UserManagement.Model
+namespace BDK.XrmToolBox.UserAuditViewer.Model
 {
     public class CRMUser
     {
