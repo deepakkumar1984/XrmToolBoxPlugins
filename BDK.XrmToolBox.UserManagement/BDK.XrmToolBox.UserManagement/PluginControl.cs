@@ -108,7 +108,7 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
         private void listUsers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listUsers.SelectedIndex == -1)
+            if (listUsers.SelectedItem == null)
                 return;
 
             try
