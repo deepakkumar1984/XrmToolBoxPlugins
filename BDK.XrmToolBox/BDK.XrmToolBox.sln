@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDK.XrmToolBox.UserAuditViewer", "BDK.XrmToolBox.UserManagement\BDK.XrmToolBox.UserAuditViewer.csproj", "{2573ED2C-8EB7-4BC8-B17F-20AB255802AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDK.XrmToolBox.UserAuditViewer", "BDK.XrmToolBox.UserAuditViewer\BDK.XrmToolBox.UserAuditViewer.csproj", "{2573ED2C-8EB7-4BC8-B17F-20AB255802AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDK.XrmToolBox.StorageCleaner", "BDK.XrmToolBox.StorageCleaner\BDK.XrmToolBox.StorageCleaner.csproj", "{0D801AE5-C241-4C37-8649-C71CA8F95409}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2573ED2C-8EB7-4BC8-B17F-20AB255802AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2573ED2C-8EB7-4BC8-B17F-20AB255802AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2573ED2C-8EB7-4BC8-B17F-20AB255802AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D801AE5-C241-4C37-8649-C71CA8F95409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D801AE5-C241-4C37-8649-C71CA8F95409}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D801AE5-C241-4C37-8649-C71CA8F95409}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D801AE5-C241-4C37-8649-C71CA8F95409}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
