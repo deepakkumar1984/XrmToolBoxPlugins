@@ -117,7 +117,94 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="FetchXml_Audit" xml:space="preserve">
+    <value>&lt;fetch  version="1.0" {1}&gt;
+  &lt;entity name="audit" &gt;
+    &lt;attribute name="auditid" /&gt;
+    &lt;filter&gt;
+      &lt;condition attribute="createdon" operator="olderthan-x-months" value="{0}" /&gt;
+    &lt;/filter&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</value>
+  </data>
+  <data name="FetchXml_BulkDelete" xml:space="preserve">
+    <value>&lt;fetch version="1.0" {1}&gt;
+  &lt;entity name="asyncoperation" &gt;
+    &lt;attribute name="asyncoperationid" /&gt;
+    &lt;filter type="and" &gt;
+      &lt;condition attribute="operationtype" operator="eq" value="13" /&gt;
+      &lt;condition attribute="statuscode" operator="eq" value="30" /&gt;
+      &lt;condition attribute="completedon" operator="olderthan-x-months" value="{0}" /&gt;
+    &lt;/filter&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</value>
+  </data>
+  <data name="FetchXml_BulkEmailAndWorkflow" xml:space="preserve">
+    <value>&lt;fetch version="1.0" {1}&gt;
+  &lt;entity name="asyncoperation" &gt;
+    &lt;attribute name="asyncoperationid"  /&gt;
+    &lt;filter type="and" &gt;
+      &lt;condition attribute="operationtype" operator="in" &gt;
+        &lt;value&gt;2&lt;/value&gt;
+        &lt;value&gt;10&lt;/value&gt;
+      &lt;/condition&gt;
+      &lt;condition attribute="statuscode" operator="eq" value="30" /&gt;
+      &lt;condition attribute="completedon" operator="olderthan-x-months" value="{0}" /&gt;
+    &lt;/filter&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</value>
+    <comment>\</comment>
+  </data>
+  <data name="FetchXml_BulkImport" xml:space="preserve">
+    <value>&lt;fetch version="1.0" {1} &gt;
+  &lt;entity name="asyncoperation" &gt;
+    &lt;attribute name="asyncoperationid" /&gt;
+    &lt;filter type="and" &gt;
+      &lt;condition attribute="operationtype" operator="eq" value="5" /&gt;
+      &lt;condition attribute="statuscode" operator="eq" value="30" /&gt;
+      &lt;condition attribute="completedon" operator="olderthan-x-months" value="{0}" /&gt;
+    &lt;/filter&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</value>
+  </data>
+  <data name="FetchXml_EmailWithAttachements" xml:space="preserve">
+    <value>&lt;fetch version="1.0" {2}&gt;
+  &lt;entity name="email" &gt;
+    &lt;attribute name="activityid" /&gt;
+    &lt;filter type="and" &gt;
+      &lt;condition attribute="createdon" value="{0}" operator="olderthan-x-months" /&gt;
+    &lt;/filter&gt;
+    &lt;link-entity name="activitymimeattachment" from="objectid" to="activityid" alias="ac" &gt;
+      &lt;filter type="and" &gt;
+        &lt;condition attribute="filesize" operator="gt" value="{1}" /&gt;
+      &lt;/filter&gt;
+    &lt;/link-entity&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</value>
+  </data>
+  <data name="FetchXml_NotesWithAttachments" xml:space="preserve">
+    <value>&lt;fetch version="1.0" {2} &gt;
+  &lt;entity name="annotation" &gt;
+    &lt;attribute name="annotationid" /&gt;
+    &lt;filter type="and" &gt;
+      &lt;condition attribute="filesize" operator="gt" value="{1}" /&gt;
+      &lt;condition attribute="createdon" operator="olderthan-x-months" value="{0}" /&gt;
+    &lt;/filter&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</value>
+  </data>
+  <data name="FetchXml_SuspendedWorkflow" xml:space="preserve">
+    <value>&lt;fetch version="1.0" {1} &gt;
+  &lt;entity name="asyncoperation" &gt;
+    &lt;attribute name="asyncoperationid"/&gt;
+    &lt;filter type="and" &gt;
+      &lt;condition attribute="operationtype" operator="in" &gt;
+        &lt;value&gt;10&lt;/value&gt;
+      &lt;/condition&gt;
+      &lt;condition attribute="statuscode" operator="eq" value="10" /&gt;
+      &lt;condition attribute="completedon" operator="olderthan-x-months" value="{0}" /&gt;
+    &lt;/filter&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</value>
+  </data>
 </root>
