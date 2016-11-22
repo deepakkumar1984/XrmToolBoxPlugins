@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0D801AE5-C241-4C37-8649-C71CA8F95409}</ProjectGuid>
+    <ProjectGuid>{8D2C8BFC-9031-4A03-8E65-540CD27C5B7D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BDK.XrmToolBox.StorageCleaner</RootNamespace>
-    <AssemblyName>BDK.XrmToolBox.StorageCleaner</AssemblyName>
+    <RootNamespace>BDK.XrmToolBox.RecycleBin</RootNamespace>
+    <AssemblyName>BDK.XrmToolBox.RecycleBin</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>E:\CRMSDK\XrmToolBox\Plugins\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -58,6 +58,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FetchXml.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FetchXml.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AuditItem.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="PluginControl.cs">
       <SubType>UserControl</SubType>
@@ -71,13 +77,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Settings.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FetchXml.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FetchXml.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="PluginControl.resx">
       <DependentUpon>PluginControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -85,20 +90,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\BDK.XrmToolBox.RecycleBin.Model.AuditItem.datasource" />
+    <None Include="Resources\Refresh.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Delete.gif" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Refresh.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PluginProfile.gif" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

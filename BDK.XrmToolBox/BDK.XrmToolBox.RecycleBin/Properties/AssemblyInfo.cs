@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Storage Space Cleaner")]
-[assembly: AssemblyDescription("Check and manage storage usage and clean-up")]
+[assembly: AssemblyTitle("Recycle Bin")]
+[assembly: AssemblyDescription("Review and restore the deleted records for entities with auditing enabled")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Deepak Battini")]
-[assembly: AssemblyProduct("BDK.XrmToolBox.StorageCleaner")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("BDK.XrmToolBox.RecycleBin")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0d801ae5-c241-4c37-8649-c71ca8f95409")]
+[assembly: Guid("8d2c8bfc-9031-4a03-8e65-540cd27c5b7d")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2016.11.2")]
-[assembly: AssemblyFileVersion("1.2016.11.2")]
+[assembly: AssemblyVersion("1.2016.11.1")]
+[assembly: AssemblyFileVersion("1.2016.11.1")]

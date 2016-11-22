@@ -117,63 +117,63 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FetchXml_EnabledUsers" xml:space="preserve">
+  <data name="DeleteAuditLogsByUser" xml:space="preserve">
     <value>&lt;fetch&gt;
+  &lt;entity name="audit" &gt;
+    &lt;attribute name="objecttypecodename" /&gt;
+    &lt;attribute name="regardingobjectid" /&gt;
+    &lt;attribute name="regardingobjectidname" /&gt;
+    &lt;attribute name="createdon" /&gt;
+    &lt;attribute name="userid" /&gt;
+    &lt;attribute name="objectid" /&gt;
+    &lt;attribute name="auditid" /&gt;
+    &lt;filter type="and" &gt;
+      &lt;condition attribute="operation" operator="eq" value="3" /&gt;
+      &lt;condition attribute="createdon" operator="between" &gt;
+        &lt;value&gt;{0}&lt;/value&gt;
+        &lt;value&gt;{1}&lt;/value&gt;
+      &lt;/condition&gt;
+      &lt;condition attribute="objecttypecode" operator="eq" value="{2}" /&gt;
+      &lt;condition attribute="userid" operator="eq" value="{3}" /&gt;
+    &lt;/filter&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</value>
+  </data>
+  <data name="DeletedAuditLogs" xml:space="preserve">
+    <value>&lt;fetch&gt;
+  &lt;entity name="audit" &gt;
+    &lt;attribute name="objecttypecodename" /&gt;
+    &lt;attribute name="regardingobjectid" /&gt;
+    &lt;attribute name="regardingobjectidname" /&gt;
+    &lt;attribute name="createdon" /&gt;
+    &lt;attribute name="userid" /&gt;
+    &lt;attribute name="objectid" /&gt;
+    &lt;attribute name="auditid" /&gt;
+    &lt;attribute name="objecttypecode" /&gt;
+    &lt;attribute name="actionname" /&gt;
+    &lt;attribute name="action" /&gt;
+    &lt;attribute name="objectidname" /&gt;
+    &lt;filter type="and" &gt;
+      &lt;condition attribute="operation" operator="eq" value="3" /&gt;
+      &lt;condition attribute="createdon" operator="between" &gt;
+        &lt;value&gt;{0}&lt;/value&gt;
+        &lt;value&gt;{1}&lt;/value&gt;
+      &lt;/condition&gt;
+      &lt;condition attribute="objecttypecode" operator="eq" value="{2}" /&gt;
+    &lt;/filter&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</value>
+  </data>
+  <data name="LicencedUsers" xml:space="preserve">
+    <value>&lt;fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false" &gt;
   &lt;entity name="systemuser" &gt;
-    &lt;all-attributes/&gt;
+    &lt;attribute name="fullname" /&gt;
+    &lt;attribute name="systemuserid" /&gt;
     &lt;filter type="and" &gt;
       &lt;condition attribute="isdisabled" operator="eq" value="0" /&gt;
       &lt;condition attribute="accessmode" operator="eq" value="0" /&gt;
     &lt;/filter&gt;
-  &lt;/entity&gt;
-&lt;/fetch&gt;</value>
-  </data>
-  <data name="FetchXml_LastLoginCheck" xml:space="preserve">
-    <value>&lt;fetch count="1" &gt;
-  &lt;entity name="audit" &gt;
- &lt;attribute name="createdon"  /&gt;
-    &lt;filter&gt;
-      &lt;condition attribute="operation" operator="eq" value="4" /&gt;
-      &lt;condition attribute="objectid" operator="eq" value="{0}" /&gt;
-    &lt;/filter&gt;
-    &lt;order attribute="createdon" descending="true" /&gt;
-  &lt;/entity&gt;
-&lt;/fetch&gt;</value>
-  </data>
-  <data name="FetchXml_UserLogin" xml:space="preserve">
-    <value>&lt;fetch count="20" &gt;
-  &lt;entity name="audit" &gt;
-    &lt;all-attributes/&gt;
-    &lt;filter&gt;
-      &lt;condition attribute="operation" operator="eq" value="4" /&gt;
-      &lt;condition attribute="objectid" operator="eq" value="{0}" /&gt;
-    &lt;/filter&gt;
-    &lt;order attribute="createdon" descending="true" /&gt;
-  &lt;/entity&gt;
-&lt;/fetch&gt;</value>
-  </data>
-  <data name="FetchXml_UserTransactions" xml:space="preserve">
-    <value>&lt;fetch count="200" &gt;
-  &lt;entity name="audit" &gt;
-    &lt;all-attributes/&gt;
-    &lt;filter&gt;
-      &lt;condition attribute="operation" operator="neq" value="4" /&gt;
-      &lt;condition attribute="userid" operator="eq" value="{0}" /&gt;
-    &lt;/filter&gt;
-    &lt;order attribute="createdon" descending="true" /&gt;
-  &lt;/entity&gt;
-&lt;/fetch&gt;</value>
-  </data>
-  <data name="FetchXml_UserViews" xml:space="preserve">
-    <value>&lt;fetch&gt;
-  &lt;entity name="savedquery" &gt;
-    &lt;attribute name="name" /&gt;
-    &lt;attribute name="savedqueryid" /&gt;
-    &lt;attribute name="isdefault" /&gt;
-    &lt;filter type="and" &gt;
-      &lt;condition attribute="returnedtypecode" operator="eq" value="8" /&gt;
-      &lt;condition attribute="querytype" operator="eq" value="0" /&gt;
-    &lt;/filter&gt;
+    &lt;order attribute="fullname" /&gt;
   &lt;/entity&gt;
 &lt;/fetch&gt;</value>
   </data>

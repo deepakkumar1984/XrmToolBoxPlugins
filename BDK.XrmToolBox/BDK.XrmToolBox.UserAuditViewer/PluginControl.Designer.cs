@@ -83,12 +83,11 @@
             // 
             // btnClose
             // 
-            this.btnClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnClose.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.Delete;
             this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(23, 22);
-            this.btnClose.Text = "toolStripButton1";
+            this.btnClose.Size = new System.Drawing.Size(56, 22);
+            this.btnClose.Text = "Close";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // toolStripSeparator1

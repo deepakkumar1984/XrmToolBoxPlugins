@@ -66,7 +66,7 @@ namespace BDK.XrmToolBox.UserAuditViewer {
         ///    &lt;all-attributes/&gt;
         ///    &lt;filter type=&quot;and&quot; &gt;
         ///      &lt;condition attribute=&quot;isdisabled&quot; operator=&quot;eq&quot; value=&quot;0&quot; /&gt;
-        ///      &lt;condition attribute=&quot;accessmode&quot; operator=&quot;ne&quot; value=&quot;3&quot; /&gt;
+        ///      &lt;condition attribute=&quot;accessmode&quot; operator=&quot;eq&quot; value=&quot;0&quot; /&gt;
         ///    &lt;/filter&gt;
         ///  &lt;/entity&gt;
         ///&lt;/fetch&gt;.
