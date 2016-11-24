@@ -79,5 +79,15 @@ namespace BDK.XrmToolBox.RecycleBin.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap StepEnabled {
+            get {
+                object obj = ResourceManager.GetObject("StepEnabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

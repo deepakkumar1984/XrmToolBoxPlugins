@@ -20,6 +20,8 @@ namespace BDK.XrmToolBox.RecycleBin
 {
     public partial class PluginControl : PluginControlBase, IGitHubPlugin, IPayPalPlugin
     {
+        private List<EntityMetadata> entityMetadataList;
+
         public string RepositoryName
         {
             get
@@ -57,6 +59,7 @@ namespace BDK.XrmToolBox.RecycleBin
             InitializeComponent();
             dateFrom.Value = DateTime.Now.AddMonths(-1);
             dateTo.Value = DateTime.Now;
+            entityMetadataList = new List<EntityMetadata>();
         }
 
         private void menuClose_Click(object sender, EventArgs e)
@@ -81,14 +84,14 @@ namespace BDK.XrmToolBox.RecycleBin
                         {
                             query = new FetchExpression(string.Format(FetchXml.DeletedAuditLogs,
                                                         dateFrom.Value.ToString("yyyy-MM-dd"),
-                                                        dateTo.Value.ToString("yyyy-MM-dd"),
+                                                        dateTo.Value.AddDays(1).ToString("yyyy-MM-dd"),
                                                         ddlEntities.SelectedValue));
                         }
                         else
                         {
                             query = new FetchExpression(string.Format(FetchXml.DeleteAuditLogsByUser,
                                                         dateFrom.Value.ToString("yyyy-MM-dd"),
-                                                        dateTo.Value.ToString("yyyy-MM-dd"),
+                                                        dateTo.Value.AddDays(1).ToString("yyyy-MM-dd"),
                                                         ddlEntities.SelectedValue,
                                                         selectedUser));
                         }
@@ -100,6 +103,7 @@ namespace BDK.XrmToolBox.RecycleBin
                             auditDetailRequest.AuditId = item.Id;
                             RetrieveAuditDetailsResponse response = (RetrieveAuditDetailsResponse)Service.Execute(auditDetailRequest);
                             AttributeAuditDetail attributeDetail = (AttributeAuditDetail)response.AuditDetail;
+                            EntityMetadata metadata = entityMetadataList.Where(x => (x.ObjectTypeCode == selectedEntity.Item1)).FirstOrDefault();
                             AuditItem auditItem = new Model.AuditItem()
                             {
                                 AuditId = item.Id,
@@ -107,6 +111,8 @@ namespace BDK.XrmToolBox.RecycleBin
                                 DeletionDate = (DateTime)item["createdon"],
                                 Entity = ((EntityReference)item["objectid"]).LogicalName,
                                 RecordId = ((EntityReference)item["objectid"]).Id,
+                                AuditDetail = attributeDetail,
+                                Metadata = metadata
                             };
 
                             if (selectedEntity.Item3!=null && attributeDetail.OldValue.Contains(selectedEntity.Item3))
@@ -173,7 +179,7 @@ namespace BDK.XrmToolBox.RecycleBin
                     Dictionary<string, string> attributesData = new Dictionary<string, string>();
                     RetrieveAllEntitiesRequest metaDataRequest = new RetrieveAllEntitiesRequest();
                     RetrieveAllEntitiesResponse metaDataResponse = new RetrieveAllEntitiesResponse();
-                    metaDataRequest.EntityFilters = EntityFilters.Entity;
+                    metaDataRequest.EntityFilters = EntityFilters.Attributes;
 
                     metaDataResponse = (RetrieveAllEntitiesResponse)Service.Execute(metaDataRequest);
 
@@ -183,6 +189,7 @@ namespace BDK.XrmToolBox.RecycleBin
                         if (item.IsAuditEnabled.Value)
                         {
                             data.Add(new Tuple<int, string, string>(item.ObjectTypeCode.Value, item.DisplayName.UserLocalizedLabel.Label, item.PrimaryNameAttribute));
+                            entityMetadataList.Add(item);
                         }
                     }
 
@@ -238,6 +245,90 @@ namespace BDK.XrmToolBox.RecycleBin
                 MessageWidth = 340,
                 MessageHeight = 150
             });
+        }
+
+        private void GridDeletedRecords_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 1)
+            {
+                AuditItem audit = (AuditItem)GridDeletedRecords.Rows[e.RowIndex].DataBoundItem;
+                ShowDeletedInfo formInfo = new ShowDeletedInfo();
+                formInfo.ShowData(audit.AuditDetail, audit.Metadata);
+                formInfo.ShowDialog();
+            }
+            else if (e.ColumnIndex == 0)
+            {
+                DataGridViewCheckBoxCell checkBoxCell = (DataGridViewCheckBoxCell)GridDeletedRecords.Rows[e.RowIndex].Cells[0];
+                if (checkBoxCell.Value == null)
+                {
+                    checkBoxCell.Value = true;
+                }
+                else
+                {
+                    checkBoxCell.Value = !((bool)checkBoxCell.Value);
+                }
+            }
+        }
+
+        private void menuRestore_Click(object sender, EventArgs e)
+        {
+            DialogResult diag = MessageBox.Show("Are you sure would like to restore these deleted records?", "Confirmation", MessageBoxButtons.YesNo);
+            bool recordsSelected = false;
+            string errorMessage = string.Empty;
+            if (diag.ToString().ToUpperInvariant() == "YES")
+            {
+                WorkAsync(new WorkAsyncInfo
+                {
+                    Message = "Restoring data...",
+                    Work = (w, ev) =>
+                    {
+                        try
+                        {
+                            for (int i = 0; i < GridDeletedRecords.Rows.Count; i++)
+                            {
+                                DataGridViewRow row = GridDeletedRecords.Rows[i];
+                                DataGridViewCheckBoxCell checkBoxCell = (DataGridViewCheckBoxCell)row.Cells[0];
+                                if (checkBoxCell.Value != null && (bool)checkBoxCell.Value)
+                                {
+                                    recordsSelected = true;
+                                    AuditItem audit = (AuditItem)row.DataBoundItem;
+                                    Entity entity = audit.AuditDetail.OldValue;
+                                    Service.Create(entity);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            errorMessage = ex.Message;
+                        }
+                    },
+                    ProgressChanged = ev =>
+                    {
+                        // If progress has to be notified to user, use the following method:
+                        SetWorkingMessage("Restoring data...");
+                    },
+                    PostWorkCallBack = ev =>
+                    {
+                        if (string.IsNullOrWhiteSpace(errorMessage))
+                        {
+                            if (recordsSelected)
+                                MessageBox.Show("Restored the deleted records successfully!");
+                            else
+                                MessageBox.Show("Please select records to restore!");
+                        }
+                        else
+                        {
+                            MessageBox.Show(errorMessage);
+                        }
+                    },
+                    AsyncArgument = null,
+                    IsCancelable = true,
+                    MessageWidth = 340,
+                    MessageHeight = 150
+                });
+            }
+
+            
         }
     }
 }

@@ -64,6 +64,7 @@
       <DependentUpon>FetchXml.resx</DependentUpon>
     </Compile>
     <Compile Include="Model\AuditItem.cs" />
+    <Compile Include="Model\DeletedField.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="PluginControl.cs">
       <SubType>UserControl</SubType>
@@ -76,6 +77,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ShowDeletedInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowDeletedInfo.Designer.cs">
+      <DependentUpon>ShowDeletedInfo.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -90,15 +97,21 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="ShowDeletedInfo.resx">
+      <DependentUpon>ShowDeletedInfo.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\DataSources\BDK.XrmToolBox.RecycleBin.Model.AuditItem.datasource" />
+    <None Include="Properties\DataSources\BDK.XrmToolBox.RecycleBin.Model.DeletedField.datasource" />
     <None Include="Resources\Refresh.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Delete.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\StepEnabled.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
