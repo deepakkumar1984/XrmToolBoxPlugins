@@ -1,11 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
 using Microsoft.Crm.Sdk.Messages;
@@ -80,22 +75,27 @@ namespace BDK.XrmToolBox.RecycleBin
                         List<AuditItem> data = new List<Model.AuditItem>();
                         FetchExpression query = null;
                         Tuple<int, string, string> selectedEntity = (Tuple<int, string, string>)ddlEntities.SelectedItem;
+                        string auditFetchXml;
                         if (selectedUser == Guid.Empty)
                         {
-                            query = new FetchExpression(string.Format(FetchXml.DeletedAuditLogs,
-                                                        dateFrom.Value.ToString("yyyy-MM-dd"),
-                                                        dateTo.Value.AddDays(1).ToString("yyyy-MM-dd"),
-                                                        ddlEntities.SelectedValue));
+                            auditFetchXml = string.Format(ConnectionDetail.OrganizationMajorVersion < 8 ? 
+                                FetchXml.DeletedAuditLogs.Replace("regardingobject", "object") : 
+                                FetchXml.DeletedAuditLogs, 
+                                dateFrom.Value.ToString("yyyy-MM-dd"), 
+                                dateTo.Value.AddDays(1).ToString("yyyy-MM-dd"), 
+                                ddlEntities.SelectedValue);
                         }
                         else
                         {
-                            query = new FetchExpression(string.Format(FetchXml.DeleteAuditLogsByUser,
-                                                        dateFrom.Value.ToString("yyyy-MM-dd"),
-                                                        dateTo.Value.AddDays(1).ToString("yyyy-MM-dd"),
-                                                        ddlEntities.SelectedValue,
-                                                        selectedUser));
+                            auditFetchXml = string.Format(ConnectionDetail.OrganizationMajorVersion < 8 ?
+                                FetchXml.DeleteAuditLogsByUser.Replace("regardingobject", "object") :
+                                FetchXml.DeleteAuditLogsByUser, 
+                                dateFrom.Value.ToString("yyyy-MM-dd"),
+                                dateTo.Value.AddDays(1).ToString("yyyy-MM-dd"),
+                                ddlEntities.SelectedValue,
+                                selectedUser);
                         }
-                        
+                        query = new FetchExpression(auditFetchXml);                        
                         var queryResult = Service.RetrieveMultiple(query);
                         foreach (Entity item in queryResult.Entities)
                         {
@@ -103,7 +103,7 @@ namespace BDK.XrmToolBox.RecycleBin
                             auditDetailRequest.AuditId = item.Id;
                             RetrieveAuditDetailsResponse response = (RetrieveAuditDetailsResponse)Service.Execute(auditDetailRequest);
                             AttributeAuditDetail attributeDetail = (AttributeAuditDetail)response.AuditDetail;
-                            EntityMetadata metadata = entityMetadataList.Where(x => (x.ObjectTypeCode == selectedEntity.Item1)).FirstOrDefault();
+                            EntityMetadata metadata = entityMetadataList.FirstOrDefault(x => (x.ObjectTypeCode == selectedEntity.Item1));
                             AuditItem auditItem = new Model.AuditItem()
                             {
                                 AuditId = item.Id,
@@ -176,12 +176,10 @@ namespace BDK.XrmToolBox.RecycleBin
                 Message = "Loading entities with auditing enabled...",
                 Work = (w, ev) =>
                 {
-                    Dictionary<string, string> attributesData = new Dictionary<string, string>();
                     RetrieveAllEntitiesRequest metaDataRequest = new RetrieveAllEntitiesRequest();
-                    RetrieveAllEntitiesResponse metaDataResponse = new RetrieveAllEntitiesResponse();
                     metaDataRequest.EntityFilters = EntityFilters.Attributes;
 
-                    metaDataResponse = (RetrieveAllEntitiesResponse)Service.Execute(metaDataRequest);
+                    var metaDataResponse = (RetrieveAllEntitiesResponse)Service.Execute(metaDataRequest);
 
                     var entities = metaDataResponse.EntityMetadata;
                     foreach (var item in entities)
@@ -252,9 +250,7 @@ namespace BDK.XrmToolBox.RecycleBin
             if (e.ColumnIndex == 1)
             {
                 AuditItem audit = (AuditItem)GridDeletedRecords.Rows[e.RowIndex].DataBoundItem;
-                ShowDeletedInfo formInfo = new ShowDeletedInfo();
-                formInfo.ShowData(audit.AuditDetail, audit.Metadata);
-                formInfo.ShowDialog();
+                ShowData(audit.AuditDetail, audit.Metadata);
             }
             else if (e.ColumnIndex == 0)
             {
@@ -329,6 +325,45 @@ namespace BDK.XrmToolBox.RecycleBin
             }
 
             
+        }
+
+        private void ShowData(AttributeAuditDetail auditDetail, EntityMetadata metadata)
+        {
+            List<DeletedField> result = new List<Model.DeletedField>();
+
+            foreach (var item in auditDetail.OldValue.Attributes)
+            {
+                var metadataAttrib = metadata.Attributes.Where(x => (x.SchemaName.ToLower() == item.Key.ToLower())).ToList();
+                if (metadataAttrib.Count > 0)
+                {
+                    result.Add(new DeletedField()
+                    {
+                        FieldName = metadataAttrib[0].DisplayName.UserLocalizedLabel.Label,
+                        Value = GetFormattedValue(item.Value)
+                    });
+                }
+            }
+
+            GridDetails.DataSource = result;
+        }
+
+        private object GetFormattedValue(object input)
+        {
+            object result = input;
+
+            if (input != null)
+            {
+                if (input.GetType() == typeof(EntityReference))
+                {
+                    result = ((EntityReference)input).Name;
+                }
+                else if (input.GetType() == typeof(OptionSetValue))
+                {
+                    result = ((OptionSetValue)input).Value;
+                }
+            }
+
+            return result;
         }
     }
 }
