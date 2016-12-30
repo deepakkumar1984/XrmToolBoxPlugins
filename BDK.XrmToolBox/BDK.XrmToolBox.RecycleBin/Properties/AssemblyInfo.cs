@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Recycle Bin")]
 [assembly: AssemblyDescription("Review and restore the deleted records for entities with auditing enabled")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Deepak Battini")]
 [assembly: AssemblyProduct("BDK.XrmToolBox.RecycleBin")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
