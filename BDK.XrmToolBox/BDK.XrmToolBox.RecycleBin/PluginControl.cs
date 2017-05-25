@@ -289,6 +289,8 @@ namespace BDK.XrmToolBox.RecycleBin
                                     recordsSelected = true;
                                     AuditItem audit = (AuditItem)row.DataBoundItem;
                                     Entity entity = audit.AuditDetail.OldValue;
+                                    entity.Attributes.Remove("statecode");
+                                    entity.Attributes.Remove("statuscode");
                                     Service.Create(entity);
                                 }
                             }
