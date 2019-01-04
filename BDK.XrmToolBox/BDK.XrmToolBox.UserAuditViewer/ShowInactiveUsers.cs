@@ -27,6 +27,7 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
         private void ddlFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var ddlFilterSelectedIndex = ddlFilter.SelectedIndex;
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Retrieving inactive users based on login history...",
@@ -51,19 +52,19 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
                     List<CRMUser> finalData = new List<Model.CRMUser>();
                     DateTime filterDate = DateTime.Now;
-                    if (ddlFilter.SelectedIndex == 0)
+                    if (ddlFilterSelectedIndex == 0)
                     {
                         filterDate = filterDate.AddMonths(-1);
                     }
-                    else if (ddlFilter.SelectedIndex == 1)
+                    else if (ddlFilterSelectedIndex == 1)
                     {
                         filterDate = filterDate.AddMonths(-3);
                     }
-                    else if (ddlFilter.SelectedIndex == 2)
+                    else if (ddlFilterSelectedIndex == 2)
                     {
                         filterDate = filterDate.AddMonths(-6);
                     }
-                    else if (ddlFilter.SelectedIndex == 3)
+                    else if (ddlFilterSelectedIndex == 3)
                     {
                         filterDate = filterDate.AddMonths(-12);
                     }
