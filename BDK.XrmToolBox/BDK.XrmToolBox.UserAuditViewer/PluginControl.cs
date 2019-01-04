@@ -113,12 +113,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
             try
             {
+                string selectedUserId = ((CRMUser)listUsers.SelectedItem).Id;
                 WorkAsync(new WorkAsyncInfo
                 {
                     Message = "Retrieving user login history...",
                     Work = (w, ev) =>
                     {
-                        string selectedUserId = ((CRMUser)listUsers.SelectedItem).Id;
                         FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserLogin, selectedUserId));
 
                         EntityCollection entitites = Service.RetrieveMultiple(query);
@@ -160,12 +160,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
             try
             {
+                string selectedUserId = ((CRMUser)listUsers.SelectedItem).Id;
                 WorkAsync(new WorkAsyncInfo
                 {
                     Message = "Retrieving user transaction history...",
                     Work = (w, ev) =>
                     {
-                        string selectedUserId = ((CRMUser)listUsers.SelectedItem).Id;
                         FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserTransactions, selectedUserId));
 
                         EntityCollection entitites = Service.RetrieveMultiple(query);
@@ -209,12 +209,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
         private void ddluserViews_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Guid selectedView = ((Tuple<Guid, string, string>)ddluserViews.SelectedItem).Item1;
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Retrieving users...",
                 Work = (w, ev) =>
                 {
-                    Guid selectedView = ((Tuple<Guid, string, string>)ddluserViews.SelectedItem).Item1;
                     Entity viewEntity = Service.Retrieve("savedquery", selectedView, new ColumnSet("fetchxml"));
                     FetchExpression fetchQuery = new FetchExpression(viewEntity["fetchxml"].ToString());
                     EntityCollection result = Service.RetrieveMultiple(fetchQuery);
