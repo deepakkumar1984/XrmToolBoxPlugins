@@ -10,6 +10,7 @@ using XrmToolBox.Extensibility.Interfaces;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using BDK.XrmToolBox.RecycleBin.Model;
+using McTools.Xrm.Connection;
 
 namespace BDK.XrmToolBox.RecycleBin
 {
@@ -171,6 +172,14 @@ namespace BDK.XrmToolBox.RecycleBin
         private void menuLoadEntities_Click(object sender, EventArgs e)
         {
             List<Tuple<int, string, string>> data = new List<Tuple<int, string, string>>();
+
+            ExecuteMethod(WhoAmI);
+
+            if (Service==null)
+            {
+                return;
+            }
+
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Loading entities with auditing enabled...",
@@ -366,6 +375,24 @@ namespace BDK.XrmToolBox.RecycleBin
             }
 
             return result;
+        }
+
+        private void WhoAmI()
+        {
+            Service.Execute(new WhoAmIRequest());
+        }
+
+        private void PluginControl_Load(object sender, EventArgs e)
+        {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+            }
+        }
+
+        public override void UpdateConnection(IOrganizationService newService, ConnectionDetail detail, string actionName, object parameter)
+        {
+            base.UpdateConnection(newService, detail, actionName, parameter);
         }
     }
 }

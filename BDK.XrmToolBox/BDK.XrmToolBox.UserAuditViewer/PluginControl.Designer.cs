@@ -315,6 +315,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Name = "PluginControl";
             this.Size = new System.Drawing.Size(1199, 588);
+            this.Load += new System.EventHandler(this.PluginControl_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cRMUserBindingSource)).EndInit();

@@ -64,6 +64,12 @@ namespace BDK.XrmToolBox.StorageCleaner
 
         private void menuRefresh_Click(object sender, EventArgs e)
         {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
+
             menuBulkDelete.Enabled = false;
             int olderThan = 0;
 
@@ -131,6 +137,12 @@ namespace BDK.XrmToolBox.StorageCleaner
 
         private void InvokeCount(int olderThan, string fetchXml, string message, System.Windows.Forms.Label lbl, int attachmentSize = -1)
         {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
+
             WorkAsync(new WorkAsyncInfo
             {
                 Message = message,
@@ -282,6 +294,12 @@ namespace BDK.XrmToolBox.StorageCleaner
 
         private void menuBulkDelete_Click(object sender, EventArgs e)
         {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
+
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Initiating bulk delete jobs in CRM..",
@@ -335,6 +353,12 @@ namespace BDK.XrmToolBox.StorageCleaner
 
         private void CreateBulkDelete(QueryExpression query, string jobName)
         {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
+
             if (query == null)
                 return;
 
@@ -353,6 +377,16 @@ namespace BDK.XrmToolBox.StorageCleaner
 
             var bulkDeleteResponse =
                 (BulkDeleteResponse)Service.Execute(bulkDeleteRequest);
+        }
+
+        private void PluginControl_Load(object sender, EventArgs e)
+        {
+            ExecuteMethod(WhoAmI);
+        }
+
+        private void WhoAmI()
+        {
+            Service.Execute(new WhoAmIRequest());
         }
     }
 }

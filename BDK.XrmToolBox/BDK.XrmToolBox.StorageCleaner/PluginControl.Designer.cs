@@ -29,7 +29,10 @@
         private void InitializeComponent()
         {
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.menuClose = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuRefresh = new System.Windows.Forms.ToolStripButton();
+            this.menuBulkDelete = new System.Windows.Forms.ToolStripButton();
             this.ddlFilter = new System.Windows.Forms.ComboBox();
             this.lblFilter = new System.Windows.Forms.Label();
             this.lblFileSize = new System.Windows.Forms.Label();
@@ -49,9 +52,6 @@
             this.chkSuspendedJobs = new System.Windows.Forms.CheckBox();
             this.lblBulkEmailWorkflow = new System.Windows.Forms.Label();
             this.chkBulkEmailWorkflow = new System.Windows.Forms.CheckBox();
-            this.menuClose = new System.Windows.Forms.ToolStripButton();
-            this.menuRefresh = new System.Windows.Forms.ToolStripButton();
-            this.menuBulkDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.lblEmailWithAttachments.SuspendLayout();
             this.SuspendLayout();
@@ -69,10 +69,37 @@
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // menuClose
+            // 
+            this.menuClose.Image = global::BDK.XrmToolBox.StorageCleaner.Properties.Resources.Delete;
+            this.menuClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuClose.Name = "menuClose";
+            this.menuClose.Size = new System.Drawing.Size(56, 22);
+            this.menuClose.Text = "Close";
+            this.menuClose.Click += new System.EventHandler(this.menuClose_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // menuRefresh
+            // 
+            this.menuRefresh.Image = global::BDK.XrmToolBox.StorageCleaner.Properties.Resources.Refresh;
+            this.menuRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuRefresh.Name = "menuRefresh";
+            this.menuRefresh.Size = new System.Drawing.Size(121, 22);
+            this.menuRefresh.Text = "Calculate Records";
+            this.menuRefresh.Click += new System.EventHandler(this.menuRefresh_Click);
+            // 
+            // menuBulkDelete
+            // 
+            this.menuBulkDelete.Image = global::BDK.XrmToolBox.StorageCleaner.Properties.Resources.PluginProfile;
+            this.menuBulkDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuBulkDelete.Name = "menuBulkDelete";
+            this.menuBulkDelete.Size = new System.Drawing.Size(125, 22);
+            this.menuBulkDelete.Text = "Initiate Bulk Delete";
+            this.menuBulkDelete.Click += new System.EventHandler(this.menuBulkDelete_Click);
             // 
             // ddlFilter
             // 
@@ -299,33 +326,6 @@
             this.chkBulkEmailWorkflow.Text = "Bulk Email and Workflow";
             this.chkBulkEmailWorkflow.UseVisualStyleBackColor = true;
             // 
-            // menuClose
-            // 
-            this.menuClose.Image = global::BDK.XrmToolBox.StorageCleaner.Properties.Resources.Delete;
-            this.menuClose.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.menuClose.Name = "menuClose";
-            this.menuClose.Size = new System.Drawing.Size(56, 22);
-            this.menuClose.Text = "Close";
-            this.menuClose.Click += new System.EventHandler(this.menuClose_Click);
-            // 
-            // menuRefresh
-            // 
-            this.menuRefresh.Image = global::BDK.XrmToolBox.StorageCleaner.Properties.Resources.Refresh;
-            this.menuRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.menuRefresh.Name = "menuRefresh";
-            this.menuRefresh.Size = new System.Drawing.Size(121, 22);
-            this.menuRefresh.Text = "Calculate Records";
-            this.menuRefresh.Click += new System.EventHandler(this.menuRefresh_Click);
-            // 
-            // menuBulkDelete
-            // 
-            this.menuBulkDelete.Image = global::BDK.XrmToolBox.StorageCleaner.Properties.Resources.PluginProfile;
-            this.menuBulkDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.menuBulkDelete.Name = "menuBulkDelete";
-            this.menuBulkDelete.Size = new System.Drawing.Size(125, 22);
-            this.menuBulkDelete.Text = "Initiate Bulk Delete";
-            this.menuBulkDelete.Click += new System.EventHandler(this.menuBulkDelete_Click);
-            // 
             // PluginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -338,6 +338,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Name = "PluginControl";
             this.Size = new System.Drawing.Size(677, 577);
+            this.Load += new System.EventHandler(this.PluginControl_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.lblEmailWithAttachments.ResumeLayout(false);

@@ -69,6 +69,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
         private void btnLoadViews_Click(object sender, EventArgs e)
         {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
+
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Retrieving user views...",
@@ -256,6 +262,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
         private void loginHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
+
             DataSet ds = GetDataset(gridLoginHistory);
             DialogResult dialogResult = saveFile.ShowDialog();
             if (dialogResult.ToString() == "OK")
@@ -266,6 +278,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
         private void transactionToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
+
             DataSet ds = GetDataset(gridUserTransactions);
             DialogResult dialogResult = saveFile.ShowDialog();
             if (dialogResult.ToString() == "OK")
@@ -401,8 +419,23 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
         private void menuInactiveUsers_Click(object sender, EventArgs e)
         {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
             InactiveUsers form = new InactiveUsers(this.Service);
             form.ShowDialog();
+        }
+
+        private void PluginControl_Load(object sender, EventArgs e)
+        {
+            ExecuteMethod(WhoAmI);
+        }
+
+        private void WhoAmI()
+        {
+            Service.Execute(new WhoAmIRequest());
         }
     }
 }
