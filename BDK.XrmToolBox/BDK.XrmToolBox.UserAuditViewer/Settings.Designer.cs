@@ -19,7 +19,7 @@ namespace BDK.XrmToolBox.UserAuditViewer {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Settings {
@@ -96,7 +96,7 @@ namespace BDK.XrmToolBox.UserAuditViewer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;fetch count=&quot;20&quot; &gt;
+        ///   Looks up a localized string similar to &lt;fetch count=&quot;50&quot; page=&quot;{1}&quot; paging-cookie=&quot;{2}&quot; returntotalrecordcount=&quot;true&quot; &gt;
         ///  &lt;entity name=&quot;audit&quot; &gt;
         ///    &lt;all-attributes/&gt;
         ///    &lt;filter&gt;
@@ -114,7 +114,7 @@ namespace BDK.XrmToolBox.UserAuditViewer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;fetch count=&quot;200&quot; &gt;
+        ///   Looks up a localized string similar to &lt;fetch count=&quot;50&quot; page=&quot;{1}&quot; paging-cookie=&quot;{2}&quot; returntotalrecordcount=&quot;true&quot;&gt;
         ///  &lt;entity name=&quot;audit&quot; &gt;
         ///    &lt;all-attributes/&gt;
         ///    &lt;filter&gt;

@@ -37,8 +37,7 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
                     EntityCollection entitites = OrgService.RetrieveMultiple(query);
                     List<CRMUser> data = new List<Model.CRMUser>();
-                    foreach (var item in entitites.Entities)
-                    {
+                    Parallel.ForEach(entitites.Entities, (item) => {
                         data.Add(new Model.CRMUser()
                         {
                             Username = item.Attributes.ContainsKey("domainname") ? item.Attributes["domainname"].ToString() : string.Empty,
@@ -48,7 +47,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
                             Title = item.Attributes.ContainsKey("title") ? item.Attributes["title"].ToString() : string.Empty,
                             PrimaryEmail = item.Attributes.ContainsKey("internalemailaddress") ? item.Attributes["internalemailaddress"].ToString() : string.Empty,
                         });
-                    }
+                    });
+
+                    //foreach (var item in entitites.Entities)
+                    //{
+                        
+                    //}
 
                     List<CRMUser> finalData = new List<Model.CRMUser>();
                     DateTime filterDate = DateTime.Now;
@@ -69,7 +73,7 @@ namespace BDK.XrmToolBox.UserAuditViewer
                         filterDate = filterDate.AddMonths(-12);
                     }
 
-                    foreach (var item in data)
+                    Parallel.ForEach(data, (item) =>
                     {
                         FetchExpression query1 = new FetchExpression(string.Format(Settings.FetchXml_LastLoginCheck, item.Id));
                         EntityCollection entitites1 = OrgService.RetrieveMultiple(query1);
@@ -82,7 +86,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
                                 finalData.Add(item);
                             }
                         }
-                    }
+                    });
+
+                    //foreach (var item in data)
+                    //{
+                        
+                    //}
 
                     ev.Result = finalData.OrderBy(x=>(x.Name)).ToList();
                 },

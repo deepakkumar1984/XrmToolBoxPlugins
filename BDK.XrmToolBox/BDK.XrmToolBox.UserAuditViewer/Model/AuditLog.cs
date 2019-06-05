@@ -15,6 +15,8 @@ namespace BDK.XrmToolBox.UserAuditViewer.Model
         public string LoginDate { get; set; }
 
         public string LoginTime { get; set; }
+
+        public DateTime LoginDateTime { get; set; }
     }
 
     public class AuditTransaction

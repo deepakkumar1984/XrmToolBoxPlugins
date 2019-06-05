@@ -141,7 +141,7 @@
 &lt;/fetch&gt;</value>
   </data>
   <data name="FetchXml_UserLogin" xml:space="preserve">
-    <value>&lt;fetch count="20" &gt;
+    <value>&lt;fetch count="50" page="{1}" paging-cookie="{2}" returntotalrecordcount="true" &gt;
   &lt;entity name="audit" &gt;
     &lt;all-attributes/&gt;
     &lt;filter&gt;
@@ -153,7 +153,7 @@
 &lt;/fetch&gt;</value>
   </data>
   <data name="FetchXml_UserTransactions" xml:space="preserve">
-    <value>&lt;fetch count="200" &gt;
+    <value>&lt;fetch count="50" page="{1}" paging-cookie="{2}" returntotalrecordcount="true"&gt;
   &lt;entity name="audit" &gt;
     &lt;all-attributes/&gt;
     &lt;filter&gt;

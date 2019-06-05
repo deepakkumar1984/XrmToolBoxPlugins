@@ -19,6 +19,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
 {
     public partial class PluginControl : PluginControlBase, IGitHubPlugin, IPayPalPlugin
     {
+        private int pageUserLogin = 1;
+        private int pageUserTransaction = 1;
+
+        private string pageCookieUserLogin = "";
+        private string pageCookieUserTransaction = "";
+
         public string RepositoryName
         {
             get
@@ -117,78 +123,42 @@ namespace BDK.XrmToolBox.UserAuditViewer
             if (listUsers.SelectedItem == null)
                 return;
 
-            try
+            pageUserLogin = 1;
+            pageUserTransaction = 1;
+            pageCookieUserLogin = "";
+            pageCookieUserTransaction = "";
+
+            BuildUserLoginGrid();
+            BuildUserTransactionGrid();
+        }
+
+        private void BuildUserTransactionGrid()
+        {
+            string selectedUserId = ((CRMUser)listUsers.SelectedItem).Id;
+            WorkAsync(new WorkAsyncInfo
             {
-                string selectedUserId = ((CRMUser)listUsers.SelectedItem).Id;
-                WorkAsync(new WorkAsyncInfo
+                Message = "Retrieving user transaction history...",
+                Work = (w, ev) =>
                 {
-                    Message = "Retrieving user login history...",
-                    Work = (w, ev) =>
-                    {
-                        FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserLogin, selectedUserId));
-
-                        EntityCollection entitites = Service.RetrieveMultiple(query);
-
-                        ev.Result = entitites;
-                    },
-                    ProgressChanged = ev =>
-                    {
-                        // If progress has to be notified to user, use the following method:
-                        SetWorkingMessage("Retrieving user login history...");
-                    },
-                    PostWorkCallBack = ev =>
-                    {
-                        EntityCollection result = ev.Result as EntityCollection;
-                        List<AuditUserLogin> data = new List<Model.AuditUserLogin>();
-                        foreach (var item in result.Entities)
-                        {
-                            DateTime createdOn = (DateTime)item["createdon"];
-                            data.Add(new Model.AuditUserLogin()
-                            {
-                                Id = item.Id.ToString(),
-                                Name = ((EntityReference)item["objectid"]).Name,
-                                LoginDate = createdOn.ToShortDateString(),
-                                LoginTime = createdOn.ToShortTimeString()
-                            });
-                        }
-
-                        gridLoginHistory.DataSource = data;
-                    },
-                    AsyncArgument = null,
-                    IsCancelable = true,
-                    MessageWidth = 340,
-                    MessageHeight = 150
-                });
-            }
-            catch
-            {
-            }
-
-            try
-            {
-                string selectedUserId = ((CRMUser)listUsers.SelectedItem).Id;
-                WorkAsync(new WorkAsyncInfo
+                    FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserTransactions, selectedUserId, pageUserTransaction, pageCookieUserTransaction));
+                    EntityCollection entitites = Service.RetrieveMultiple(query);
+                    ev.Result = entitites;
+                    pageCookieUserTransaction = entitites.PagingCookie.Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "'");
+                },
+                ProgressChanged = ev =>
                 {
-                    Message = "Retrieving user transaction history...",
-                    Work = (w, ev) =>
-                    {
-                        FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserTransactions, selectedUserId));
-
-                        EntityCollection entitites = Service.RetrieveMultiple(query);
-
-                        ev.Result = entitites;
-                    },
-                    ProgressChanged = ev =>
-                    {
-                        // If progress has to be notified to user, use the following method:
-                        SetWorkingMessage("Retrieving user transaction history...");
-                    },
-                    PostWorkCallBack = ev =>
+                    // If progress has to be notified to user, use the following method:
+                    SetWorkingMessage("Retrieving user transaction history...");
+                },
+                PostWorkCallBack = ev =>
+                {
+                    try
                     {
                         EntityCollection result = ev.Result as EntityCollection;
                         List<AuditTransaction> data = new List<Model.AuditTransaction>();
-                        foreach (var item in result.Entities)
+                        Parallel.ForEach(result.Entities, (item) =>
                         {
+
                             DateTime createdOn = (DateTime)item["createdon"];
                             data.Add(new Model.AuditTransaction()
                             {
@@ -198,19 +168,70 @@ namespace BDK.XrmToolBox.UserAuditViewer
                                 Record = ((EntityReference)item["objectid"]).Name,
                                 Operation = ((AuditAction)((OptionSetValue)item["action"]).Value).ToString()
                             });
-                        }
 
-                        gridUserTransactions.DataSource = data;
-                    },
-                    AsyncArgument = null,
-                    IsCancelable = true,
-                    MessageWidth = 340,
-                    MessageHeight = 150
-                });
-            }
-            catch
+                        });
+
+                        gridUserTransactions.DataSource = data.OrderByDescending(x => (x.Date)).ToList();
+                    }
+                    catch { }
+                },
+                AsyncArgument = null,
+                IsCancelable = true,
+                MessageWidth = 340,
+                MessageHeight = 150
+            });
+        }
+
+        private void BuildUserLoginGrid()
+        {
+            string selectedUserId = ((CRMUser)listUsers.SelectedItem).Id;
+            WorkAsync(new WorkAsyncInfo
             {
-            }
+                Message = "Retrieving user login history...",
+                Work = (w, ev) =>
+                {
+                    FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserLogin, selectedUserId, pageUserLogin, pageCookieUserLogin));
+
+                    EntityCollection entitites = Service.RetrieveMultiple(query);
+
+                    ev.Result = entitites;
+                    pageCookieUserLogin = entitites.PagingCookie.Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "'"); ;
+                },
+                ProgressChanged = ev =>
+                {
+                    // If progress has to be notified to user, use the following method:
+                    SetWorkingMessage("Retrieving user login history...");
+                },
+                PostWorkCallBack = ev =>
+                {
+                    try
+                    {
+                        EntityCollection result = ev.Result as EntityCollection;
+                        List<AuditUserLogin> data = new List<Model.AuditUserLogin>();
+                        Parallel.ForEach(result.Entities, (item) =>
+                        {
+
+                            DateTime createdOn = (DateTime)item["createdon"];
+                            data.Add(new Model.AuditUserLogin()
+                            {
+                                Id = item.Id.ToString(),
+                                Name = ((EntityReference)item["objectid"]).Name,
+                                LoginDateTime = createdOn,
+                                LoginDate = createdOn.ToShortDateString(),
+                                LoginTime = createdOn.ToShortTimeString()
+                            });
+
+                        });
+
+                        gridLoginHistory.DataSource = data.OrderByDescending(x => (x.LoginDateTime)).ToList();
+                    }
+                    catch { }
+                },
+                AsyncArgument = null,
+                IsCancelable = true,
+                MessageWidth = 340,
+                MessageHeight = 150
+            });
         }
 
         private void ddluserViews_SelectedIndexChanged(object sender, EventArgs e)
@@ -236,12 +257,20 @@ namespace BDK.XrmToolBox.UserAuditViewer
                 {
                     EntityCollection result = ev.Result as EntityCollection;
                     List<CRMUser> data = new List<Model.CRMUser>();
+                    //Parallel.ForEach(result.Entities, (item) => {
+                    //    data.Add(new Model.CRMUser()
+                    //    {
+                    //        Username = item.Attributes.ContainsKey("domainname") ? item.Attributes["domainname"].ToString() : string.Empty,
+                    //        Name = item.Attributes.ContainsKey("fullname") ? item.Attributes["fullname"].ToString() : string.Empty,
+                    //        Id = item.Id.ToString()
+                    //    });
+                    //});
                     foreach (var item in result.Entities)
                     {
                         data.Add(new Model.CRMUser()
                         {
                             Username = item.Attributes.ContainsKey("domainname") ? item.Attributes["domainname"].ToString() : string.Empty,
-                            Name = item.Attributes.ContainsKey("fullname") ? item.Attributes["fullname"].ToString(): string.Empty,
+                            Name = item.Attributes.ContainsKey("fullname") ? item.Attributes["fullname"].ToString() : string.Empty,
                             Id = item.Id.ToString()
                         });
                     }
@@ -436,6 +465,36 @@ namespace BDK.XrmToolBox.UserAuditViewer
         private void WhoAmI()
         {
             Service.Execute(new WhoAmIRequest());
+        }
+
+        private void btnNextUserLogin_Click(object sender, EventArgs e)
+        {
+            pageUserLogin++;
+            BuildUserLoginGrid();
+        }
+
+        private void btnPrevUserLogin_Click(object sender, EventArgs e)
+        {
+            if (pageUserLogin > 1)
+            {
+                pageUserLogin--;
+                BuildUserLoginGrid();
+            }
+        }
+
+        private void btnPrevUserTran_Click(object sender, EventArgs e)
+        {
+            pageUserTransaction++;
+            BuildUserTransactionGrid();
+        }
+
+        private void btnNextUserTran_Click(object sender, EventArgs e)
+        {
+            if (pageUserTransaction > 1)
+            {
+                pageUserTransaction--;
+                BuildUserTransactionGrid();
+            }
         }
     }
 }
