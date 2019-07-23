@@ -1,37 +1,16 @@
-## Welcome to GitHub Pages
+# XrmToolBox plugins
 
-You can use the [editor on GitHub](https://github.com/deepakkumar1984/XrmToolBoxPlugins/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Following are the plugin being offered from this repo:
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Recycle Bin
+The purpose of this plugin is to restore any deleted record across the CRM entities which have audit enabled. 
+The pre-requisite is to have Auditing enabled globally and enabled per entity as well. The plugin will check and load only the entities which have audit enabled
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## User Audit Viewer
+Audit is a very useful data to get insign of user activities. This plugin makes use of the data to give you some info of user activities for a specific date range
+You can get the list of users who haven't used CRM from past 1/3/6 months and free up licenses
+Ability to export the data to an excel
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/deepakkumar1984/XrmToolBoxPlugins/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## Storage cleanup
+With space being used up quickly, this plugin gives an insight of most data usage across admin related entities which can be cleanup up to get some free space.
