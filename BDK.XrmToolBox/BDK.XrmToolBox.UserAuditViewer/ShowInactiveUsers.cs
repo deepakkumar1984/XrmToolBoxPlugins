@@ -1,30 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using XrmToolBox.Extensibility;
-using Microsoft.Crm.Sdk.Messages;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
-using BDK.XrmToolBox.UserAuditViewer.Model;
-using DocumentFormat.OpenXml.Packaging;
+﻿/*
+MIT License
+
+Copyright (c) 2019 Tech Quantum
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
+
 
 namespace BDK.XrmToolBox.UserAuditViewer
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using Microsoft.Xrm.Sdk;
+    using Microsoft.Xrm.Sdk.Query;
+    using BDK.XrmToolBox.UserAuditViewer.Model;
+    using DocumentFormat.OpenXml.Packaging;
+    using global::XrmToolBox.Extensibility;
+
+    /// <summary>
+    /// Shaoe inactive users list
+    /// </summary>
+    /// <seealso cref="XrmToolBox.Extensibility.PluginControlBase" />
     public partial class ShowInactiveUsers : PluginControlBase
     {
+        /// <summary>
+        /// Gets or sets the org service.
+        /// </summary>
+        /// <value>
+        /// The org service.
+        /// </value>
         public IOrganizationService OrgService { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShowInactiveUsers"/> class.
+        /// </summary>
         public ShowInactiveUsers()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the ddlFilter control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void ddlFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             var ddlFilterSelectedIndex = ddlFilter.SelectedIndex;
@@ -37,7 +76,8 @@ namespace BDK.XrmToolBox.UserAuditViewer
 
                     EntityCollection entitites = OrgService.RetrieveMultiple(query);
                     List<CRMUser> data = new List<Model.CRMUser>();
-                    Parallel.ForEach(entitites.Entities, (item) => {
+                    foreach (var item in entitites.Entities)
+                    {
                         data.Add(new Model.CRMUser()
                         {
                             Username = item.Attributes.ContainsKey("domainname") ? item.Attributes["domainname"].ToString() : string.Empty,
@@ -47,12 +87,7 @@ namespace BDK.XrmToolBox.UserAuditViewer
                             Title = item.Attributes.ContainsKey("title") ? item.Attributes["title"].ToString() : string.Empty,
                             PrimaryEmail = item.Attributes.ContainsKey("internalemailaddress") ? item.Attributes["internalemailaddress"].ToString() : string.Empty,
                         });
-                    });
-
-                    //foreach (var item in entitites.Entities)
-                    //{
-                        
-                    //}
+                    }
 
                     List<CRMUser> finalData = new List<Model.CRMUser>();
                     DateTime filterDate = DateTime.Now;
@@ -88,11 +123,6 @@ namespace BDK.XrmToolBox.UserAuditViewer
                         }
                     });
 
-                    //foreach (var item in data)
-                    //{
-                        
-                    //}
-
                     ev.Result = finalData.OrderBy(x=>(x.Name)).ToList();
                 },
                 ProgressChanged = ev =>
@@ -112,6 +142,11 @@ namespace BDK.XrmToolBox.UserAuditViewer
             });
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnExport control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnExport_Click(object sender, EventArgs e)
         {
             DataSet ds = GetDataset(GridUsers);
@@ -121,6 +156,12 @@ namespace BDK.XrmToolBox.UserAuditViewer
                 ExportDataSet(ds, saveFile.FileName);
             }
         }
+
+        /// <summary>
+        /// Exports the data set.
+        /// </summary>
+        /// <param name="ds">The ds.</param>
+        /// <param name="destination">The destination.</param>
         private void ExportDataSet(DataSet ds, string destination)
         {
             using (var workbook = SpreadsheetDocument.Create(destination, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
@@ -185,6 +226,11 @@ namespace BDK.XrmToolBox.UserAuditViewer
             }
         }
 
+        /// <summary>
+        /// Gets the dataset.
+        /// </summary>
+        /// <param name="gridView">The grid view.</param>
+        /// <returns></returns>
         private DataSet GetDataset(DataGridView gridView)
         {
             DataSet ds = new DataSet();

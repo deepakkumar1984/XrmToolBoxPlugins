@@ -1,24 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using XrmToolBox.Extensibility;
-using Microsoft.Crm.Sdk.Messages;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
-using XrmToolBox.Extensibility.Interfaces;
+﻿/*
+MIT License
+
+Copyright (c) 2019 Tech Quantum
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
 
 namespace BDK.XrmToolBox.StorageCleaner
 {
+    using System;
+    using System.Windows.Forms;
+    using Microsoft.Crm.Sdk.Messages;
+    using Microsoft.Xrm.Sdk;
+    using Microsoft.Xrm.Sdk.Query;
+    using global::XrmToolBox.Extensibility;
+    using global::XrmToolBox.Extensibility.Interfaces;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="PluginControlBase" />
+    /// <seealso cref="IGitHubPlugin" />
+    /// <seealso cref="IPayPalPlugin" />
     public partial class PluginControl : PluginControlBase, IGitHubPlugin, IPayPalPlugin
     {
-        private bool readyToDelete = false;
-
+        #region Public Properties
+        /// <summary>
+        /// Gets the name of the repository.
+        /// </summary>
+        /// <value>
+        /// The name of the repository.
+        /// </value>
         public string RepositoryName
         {
             get
@@ -27,14 +55,26 @@ namespace BDK.XrmToolBox.StorageCleaner
             }
         }
 
+        /// <summary>
+        /// Gets the name of the user.
+        /// </summary>
+        /// <value>
+        /// The name of the user.
+        /// </value>
         public string UserName
         {
             get
             {
-                return "deepakkumar1984";
+                return "tech-quantum";
             }
         }
 
+        /// <summary>
+        /// Gets the donation description.
+        /// </summary>
+        /// <value>
+        /// The donation description.
+        /// </value>
         public string DonationDescription
         {
             get
@@ -43,25 +83,48 @@ namespace BDK.XrmToolBox.StorageCleaner
             }
         }
 
+        /// <summary>
+        /// Gets the email account.
+        /// </summary>
+        /// <value>
+        /// The email account.
+        /// </value>
         public string EmailAccount
         {
             get
             {
-                return "support@appshap.com";
+                return "deepak.battini@siadroid.com";
             }
         }
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PluginControl"/> class.
+        /// </summary>
         public PluginControl()
         {
             InitializeComponent();
             menuBulkDelete.Enabled = false;
         }
+        #endregion
 
+        #region Event Handling
+        /// <summary>
+        /// Handles the Click event of the menuClose control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void menuClose_Click(object sender, EventArgs e)
         {
             CloseTool();
         }
 
+        /// <summary>
+        /// Handles the Click event of the menuRefresh control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void menuRefresh_Click(object sender, EventArgs e)
         {
             if (Service == null)
@@ -129,12 +192,143 @@ namespace BDK.XrmToolBox.StorageCleaner
             if (chkBulkDeleteLogs.Checked)
                 InvokeCount(olderThan, Settings.FetchXml_BulkDelete, "Counting bulk delete jobs....", lblBulkDeletes);
 
-            if (chkAuditLogs.Checked)
-                InvokeCount(olderThan, Settings.FetchXml_Audit, "Counting audit logs....", lblAuditLogs);
-
             menuBulkDelete.Enabled = true;
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the ddlFilter control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void ddlFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            menuBulkDelete.Enabled = false;
+        }
+
+        /// <summary>
+        /// Handles the TextChanged event of the txtAttachmentSize control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void txtAttachmentSize_TextChanged(object sender, EventArgs e)
+        {
+            menuBulkDelete.Enabled = false;
+        }
+
+        /// <summary>
+        /// Handles the Click event of the menuBulkDelete control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void menuBulkDelete_Click(object sender, EventArgs e)
+        {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
+
+            WorkAsync(new WorkAsyncInfo
+            {
+                Message = "Initiating bulk delete jobs in CRM..",
+                Work = (w, ev) =>
+                {
+                    try
+                    {
+                        if (chkBulkEmailWorkflow.Checked)
+                            CreateBulkDelete(GetQueryExpression("BULKEMAILWORKFLOW"), string.Format("Delete bulk email and workflow - {0}", DateTime.Now));
+
+                        if (chkSuspendedJobs.Checked)
+                            CreateBulkDelete(GetQueryExpression("SUSPENDEDJOBS"), string.Format("Delete suspended jobs - {0}", DateTime.Now));
+
+                        if (chkEmailAtachments.Checked)
+                            CreateBulkDelete(GetQueryExpression("EMAILS"), string.Format("Delete emails with attachment - {0}", DateTime.Now));
+
+                        if (chkNotesAttachments.Checked)
+                            CreateBulkDelete(GetQueryExpression("NOTES"), string.Format("Delete notes with attachment - {0}", DateTime.Now));
+
+                        if (chkBulkImportJobs.Checked)
+                            CreateBulkDelete(GetQueryExpression("BULKIMPORT"), string.Format("Delete bulk import jobs - {0}", DateTime.Now));
+
+                        if (chkBulkDeleteLogs.Checked)
+                            CreateBulkDelete(GetQueryExpression("BULKDELETE"), string.Format("Delete bulk delete jobs - {0}", DateTime.Now));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                },
+                ProgressChanged = ev =>
+                {
+                    // If progress has to be notified to user, use the following method:
+                    SetWorkingMessage("Initiating bulk delete jobs in CRM..");
+                },
+                PostWorkCallBack = ev =>
+                {
+                    MessageBox.Show("Bulk delete jobs initiated. Please check in CRM for the status!");
+                },
+                AsyncArgument = null,
+                IsCancelable = true,
+                MessageWidth = 340,
+                MessageHeight = 150
+            });
+
+
+        }
+
+        /// <summary>
+        /// Creates the bulk delete.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <param name="jobName">Name of the job.</param>
+        private void CreateBulkDelete(QueryExpression query, string jobName)
+        {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+                return;
+            }
+
+            if (query == null)
+                return;
+
+            // Create the bulk delete request.
+            var bulkDeleteRequest = new BulkDeleteRequest
+            {
+                JobName = jobName,
+
+                QuerySet = new[] { query },
+                StartDateTime = DateTime.Now.AddMinutes(2),
+                SendEmailNotification = false,
+                ToRecipients = new Guid[] { },
+                CCRecipients = new Guid[] { },
+                RecurrencePattern = String.Empty
+            };
+
+            var bulkDeleteResponse =
+                (BulkDeleteResponse)Service.Execute(bulkDeleteRequest);
+        }
+
+        /// <summary>
+        /// Handles the Load event of the PluginControl control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void PluginControl_Load(object sender, EventArgs e)
+        {
+            ExecuteMethod(WhoAmI);
+        }
+        #endregion
+
+        #region Private method
+        /// <summary>
+        /// Invokes the count.
+        /// </summary>
+        /// <param name="olderThan">The older than.</param>
+        /// <param name="fetchXml">The fetch XML.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="lbl">The label.</param>
+        /// <param name="attachmentSize">Size of the attachment.</param>
         private void InvokeCount(int olderThan, string fetchXml, string message, System.Windows.Forms.Label lbl, int attachmentSize = -1)
         {
             if (Service == null)
@@ -186,6 +380,11 @@ namespace BDK.XrmToolBox.StorageCleaner
             });
         }
 
+        /// <summary>
+        /// Gets the query expression.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
         private QueryExpression GetQueryExpression(string type)
         {
             QueryExpression query = new QueryExpression();
@@ -273,8 +472,6 @@ namespace BDK.XrmToolBox.StorageCleaner
                     query.Criteria.AddCondition("statuscode", ConditionOperator.Equal, 30);
                     query.Criteria.AddCondition("completedon", ConditionOperator.OlderThanXMonths, olderThan);
                     break;
-                case "AUDIT":
-                    break;
                 default:
                     break;
             }
@@ -282,111 +479,13 @@ namespace BDK.XrmToolBox.StorageCleaner
             return query;
         }
 
-        private void ddlFilter_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            menuBulkDelete.Enabled = false;
-        }
-
-        private void txtAttachmentSize_TextChanged(object sender, EventArgs e)
-        {
-            menuBulkDelete.Enabled = false;
-        }
-
-        private void menuBulkDelete_Click(object sender, EventArgs e)
-        {
-            if (Service == null)
-            {
-                ExecuteMethod(WhoAmI);
-                return;
-            }
-
-            WorkAsync(new WorkAsyncInfo
-            {
-                Message = "Initiating bulk delete jobs in CRM..",
-                Work = (w, ev) =>
-                {
-                    try
-                    {
-                        if (chkBulkEmailWorkflow.Checked)
-                            CreateBulkDelete(GetQueryExpression("BULKEMAILWORKFLOW"), string.Format("Delete bulk email and workflow - {0}", DateTime.Now));
-
-                        if (chkSuspendedJobs.Checked)
-                            CreateBulkDelete(GetQueryExpression("SUSPENDEDJOBS"), string.Format("Delete suspended jobs - {0}", DateTime.Now));
-
-                        if (chkEmailAtachments.Checked)
-                            CreateBulkDelete(GetQueryExpression("EMAILS"), string.Format("Delete emails with attachment - {0}", DateTime.Now));
-
-                        if (chkNotesAttachments.Checked)
-                            CreateBulkDelete(GetQueryExpression("NOTES"), string.Format("Delete notes with attachment - {0}", DateTime.Now));
-
-                        if (chkBulkImportJobs.Checked)
-                            CreateBulkDelete(GetQueryExpression("BULKIMPORT"), string.Format("Delete bulk import jobs - {0}", DateTime.Now));
-
-                        if (chkBulkDeleteLogs.Checked)
-                            CreateBulkDelete(GetQueryExpression("BULKDELETE"), string.Format("Delete bulk delete jobs - {0}", DateTime.Now));
-
-                        if (chkAuditLogs.Checked)
-                            CreateBulkDelete(GetQueryExpression("AUDIT"), string.Format("Delete audit logs - {0}", DateTime.Now));
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                },
-                ProgressChanged = ev =>
-                {
-                    // If progress has to be notified to user, use the following method:
-                    SetWorkingMessage("Initiating bulk delete jobs in CRM..");
-                },
-                PostWorkCallBack = ev =>
-                {
-                    MessageBox.Show("Bulk delete jobs initiated. Please check in CRM for the status!");
-                },
-                AsyncArgument = null,
-                IsCancelable = true,
-                MessageWidth = 340,
-                MessageHeight = 150
-            });
-
-            
-        }
-
-        private void CreateBulkDelete(QueryExpression query, string jobName)
-        {
-            if (Service == null)
-            {
-                ExecuteMethod(WhoAmI);
-                return;
-            }
-
-            if (query == null)
-                return;
-
-            // Create the bulk delete request.
-            var bulkDeleteRequest = new BulkDeleteRequest
-            {
-                JobName = jobName,
-
-                QuerySet = new[] { query },
-                StartDateTime = DateTime.Now.AddMinutes(2),
-                SendEmailNotification = false,
-                ToRecipients = new Guid[] { },
-                CCRecipients = new Guid[] { },
-                RecurrencePattern = String.Empty
-            };
-
-            var bulkDeleteResponse =
-                (BulkDeleteResponse)Service.Execute(bulkDeleteRequest);
-        }
-
-        private void PluginControl_Load(object sender, EventArgs e)
-        {
-            ExecuteMethod(WhoAmI);
-        }
-
+        /// <summary>
+        /// Check the CRM Connection
+        /// </summary>
         private void WhoAmI()
         {
             Service.Execute(new WhoAmIRequest());
         }
+        #endregion
     }
 }

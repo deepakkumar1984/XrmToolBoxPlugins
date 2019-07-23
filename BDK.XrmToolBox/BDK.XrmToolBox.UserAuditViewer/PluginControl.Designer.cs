@@ -182,7 +182,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1201, 567);
             this.tabControl1.TabIndex = 5;
-            this.tabControl1.TabIndexChanged += new System.EventHandler(this.tabControl1_TabIndexChanged);
             // 
             // tabLoginHistory
             // 

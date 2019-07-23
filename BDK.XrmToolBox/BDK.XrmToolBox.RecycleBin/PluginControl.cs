@@ -1,23 +1,59 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using XrmToolBox.Extensibility;
-using Microsoft.Crm.Sdk.Messages;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
-using XrmToolBox.Extensibility.Interfaces;
-using Microsoft.Xrm.Sdk.Messages;
-using Microsoft.Xrm.Sdk.Metadata;
-using BDK.XrmToolBox.RecycleBin.Model;
-using McTools.Xrm.Connection;
+/*
+MIT License
+
+Copyright (c) 2019 Tech Quantum
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
 
 namespace BDK.XrmToolBox.RecycleBin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Forms;
+    using Microsoft.Crm.Sdk.Messages;
+    using Microsoft.Xrm.Sdk;
+    using Microsoft.Xrm.Sdk.Query;
+    using Microsoft.Xrm.Sdk.Messages;
+    using Microsoft.Xrm.Sdk.Metadata;
+    using BDK.XrmToolBox.RecycleBin.Model;
+    using McTools.Xrm.Connection;
+    using global::XrmToolBox.Extensibility;
+    using global::XrmToolBox.Extensibility.Interfaces;
+
     public partial class PluginControl : PluginControlBase, IGitHubPlugin, IPayPalPlugin
     {
+        #region Private fields
+        /// <summary>
+        /// The entity metadata list
+        /// </summary>
         private List<EntityMetadata> entityMetadataList;
+        #endregion
 
+        #region Public properties
+        /// <summary>
+        /// Gets the name of the repository.
+        /// </summary>
+        /// <value>
+        /// The name of the repository.
+        /// </value>
         public string RepositoryName
         {
             get
@@ -26,14 +62,26 @@ namespace BDK.XrmToolBox.RecycleBin
             }
         }
 
+        /// <summary>
+        /// Gets the name of the user.
+        /// </summary>
+        /// <value>
+        /// The name of the user.
+        /// </value>
         public string UserName
         {
             get
             {
-                return "deepakkumar1984";
+                return "tech-quantum";
             }
         }
 
+        /// <summary>
+        /// Gets the donation description.
+        /// </summary>
+        /// <value>
+        /// The donation description.
+        /// </value>
         public string DonationDescription
         {
             get
@@ -42,14 +90,25 @@ namespace BDK.XrmToolBox.RecycleBin
             }
         }
 
+        /// <summary>
+        /// Gets the email account.
+        /// </summary>
+        /// <value>
+        /// The email account.
+        /// </value>
         public string EmailAccount
         {
             get
             {
-                return "support@appshap.com";
+                return "deepak.battini@siadroid.com";
             }
         }
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PluginControl"/> class.
+        /// </summary>
         public PluginControl()
         {
             InitializeComponent();
@@ -57,12 +116,24 @@ namespace BDK.XrmToolBox.RecycleBin
             dateTo.Value = DateTime.Now;
             entityMetadataList = new List<EntityMetadata>();
         }
+        #endregion
 
+        #region Event Handling
+                /// <summary>
+        /// Handles the Click event of the menuClose control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void menuClose_Click(object sender, EventArgs e)
         {
             CloseTool();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnShowRecords control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnShowRecords_Click(object sender, EventArgs e)
         {
             if (IsValid())
@@ -144,6 +215,12 @@ namespace BDK.XrmToolBox.RecycleBin
             }
         }
 
+        /// <summary>
+        /// Returns true if ... is valid.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance is valid; otherwise, <c>false</c>.
+        /// </returns>
         private bool IsValid()
         {
             bool result = true;
@@ -169,6 +246,11 @@ namespace BDK.XrmToolBox.RecycleBin
             return result;
         }
 
+        /// <summary>
+        /// Handles the Click event of the menuLoadEntities control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void menuLoadEntities_Click(object sender, EventArgs e)
         {
             List<Tuple<int, string, string>> data = new List<Tuple<int, string, string>>();
@@ -254,6 +336,11 @@ namespace BDK.XrmToolBox.RecycleBin
             });
         }
 
+        /// <summary>
+        /// Handles the CellClick event of the GridDeletedRecords control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void GridDeletedRecords_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 1)
@@ -275,6 +362,11 @@ namespace BDK.XrmToolBox.RecycleBin
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the menuRestore control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void menuRestore_Click(object sender, EventArgs e)
         {
             DialogResult diag = MessageBox.Show("Are you sure would like to restore these deleted records?", "Confirmation", MessageBoxButtons.YesNo);
@@ -338,6 +430,38 @@ namespace BDK.XrmToolBox.RecycleBin
             
         }
 
+        /// <summary>
+        /// Handles the Load event of the PluginControl control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void PluginControl_Load(object sender, EventArgs e)
+        {
+            if (Service == null)
+            {
+                ExecuteMethod(WhoAmI);
+            }
+        }
+
+        /// <summary>
+        /// Updates the connection.
+        /// </summary>
+        /// <param name="newService">The new service.</param>
+        /// <param name="detail">The detail.</param>
+        /// <param name="actionName">Name of the action.</param>
+        /// <param name="parameter">The parameter.</param>
+        public override void UpdateConnection(IOrganizationService newService, ConnectionDetail detail, string actionName, object parameter)
+        {
+            base.UpdateConnection(newService, detail, actionName, parameter);
+        }
+        #endregion
+
+        #region Private methods
+        /// <summary>
+        /// Shows the data.
+        /// </summary>
+        /// <param name="auditDetail">The audit detail.</param>
+        /// <param name="metadata">The metadata.</param>
         private void ShowData(AttributeAuditDetail auditDetail, EntityMetadata metadata)
         {
             List<DeletedField> result = new List<Model.DeletedField>();
@@ -377,22 +501,14 @@ namespace BDK.XrmToolBox.RecycleBin
             return result;
         }
 
+        /// <summary>
+        /// Check the CRM connection
+        /// </summary>
         private void WhoAmI()
         {
             Service.Execute(new WhoAmIRequest());
         }
+        #endregion
 
-        private void PluginControl_Load(object sender, EventArgs e)
-        {
-            if (Service == null)
-            {
-                ExecuteMethod(WhoAmI);
-            }
-        }
-
-        public override void UpdateConnection(IOrganizationService newService, ConnectionDetail detail, string actionName, object parameter)
-        {
-            base.UpdateConnection(newService, detail, actionName, parameter);
-        }
     }
 }

@@ -1,14 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XrmToolBox.Extensibility;
-using XrmToolBox.Extensibility.Interfaces;
+﻿/*
+MIT License
+
+Copyright (c) 2019 Tech Quantum
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
 
 namespace BDK.XrmToolBox.StorageCleaner
 {
+    using global::XrmToolBox.Extensibility;
+    using global::XrmToolBox.Extensibility.Interfaces;
+    using System.ComponentModel.Composition;
+
+    /// <summary>
+    /// Plugin main class to load the control
+    /// </summary>
+    /// <seealso cref="XrmToolBox.Extensibility.PluginBase" />
     [Export(typeof(IXrmToolBoxPlugin)),
      ExportMetadata("BackgroundColor", "MediumBlue"),
      ExportMetadata("PrimaryFontColor", "White"),
@@ -19,6 +42,10 @@ namespace BDK.XrmToolBox.StorageCleaner
     ExportMetadata("Description", "Reduce the amount of storage space used by removing or deleting different types of information from Microsoft Dynamics CRM.")]
     public class Plugin : PluginBase
     {
+        /// <summary>
+        /// Gets the control.
+        /// </summary>
+        /// <returns></returns>
         public override IXrmToolBoxPluginControl GetControl()
         {
             return new PluginControl();

@@ -38,8 +38,6 @@
             this.lblFileSize = new System.Windows.Forms.Label();
             this.txtAttachmentSize = new System.Windows.Forms.TextBox();
             this.lblEmailWithAttachments = new System.Windows.Forms.GroupBox();
-            this.lblAuditLogs = new System.Windows.Forms.Label();
-            this.chkAuditLogs = new System.Windows.Forms.CheckBox();
             this.lblBulkDeletes = new System.Windows.Forms.Label();
             this.chkBulkDeleteLogs = new System.Windows.Forms.CheckBox();
             this.lblBulkImports = new System.Windows.Forms.Label();
@@ -146,8 +144,6 @@
             // 
             // lblEmailWithAttachments
             // 
-            this.lblEmailWithAttachments.Controls.Add(this.lblAuditLogs);
-            this.lblEmailWithAttachments.Controls.Add(this.chkAuditLogs);
             this.lblEmailWithAttachments.Controls.Add(this.lblBulkDeletes);
             this.lblEmailWithAttachments.Controls.Add(this.chkBulkDeleteLogs);
             this.lblEmailWithAttachments.Controls.Add(this.lblBulkImports);
@@ -166,27 +162,6 @@
             this.lblEmailWithAttachments.TabIndex = 5;
             this.lblEmailWithAttachments.TabStop = false;
             this.lblEmailWithAttachments.Text = "Usage information";
-            // 
-            // lblAuditLogs
-            // 
-            this.lblAuditLogs.AutoSize = true;
-            this.lblAuditLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAuditLogs.Location = new System.Drawing.Point(318, 327);
-            this.lblAuditLogs.Name = "lblAuditLogs";
-            this.lblAuditLogs.Size = new System.Drawing.Size(77, 17);
-            this.lblAuditLogs.TabIndex = 13;
-            this.lblAuditLogs.Text = "0 records";
-            // 
-            // chkAuditLogs
-            // 
-            this.chkAuditLogs.AutoSize = true;
-            this.chkAuditLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkAuditLogs.Location = new System.Drawing.Point(83, 327);
-            this.chkAuditLogs.Name = "chkAuditLogs";
-            this.chkAuditLogs.Size = new System.Drawing.Size(94, 21);
-            this.chkAuditLogs.TabIndex = 12;
-            this.chkAuditLogs.Text = "Audit Logs";
-            this.chkAuditLogs.UseVisualStyleBackColor = true;
             // 
             // lblBulkDeletes
             // 
@@ -371,8 +346,6 @@
         private System.Windows.Forms.CheckBox chkEmailAtachments;
         private System.Windows.Forms.Label lblSuspendedWf;
         private System.Windows.Forms.CheckBox chkSuspendedJobs;
-        private System.Windows.Forms.Label lblAuditLogs;
-        private System.Windows.Forms.CheckBox chkAuditLogs;
         private System.Windows.Forms.ToolStripButton menuBulkDelete;
     }
 }
