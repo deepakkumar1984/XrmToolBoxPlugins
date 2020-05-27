@@ -147,6 +147,9 @@
     &lt;filter&gt;
       &lt;condition attribute="operation" operator="eq" value="4" /&gt;
       &lt;condition attribute="objectid" operator="eq" value="{0}" /&gt;
+     &lt;condition attribute="createdon" operator="ge" value="{3}" /&gt;
+      &lt;condition attribute="createdon" operator="le" value="{4}" /&gt;
+
     &lt;/filter&gt;
     &lt;order attribute="createdon" descending="true" /&gt;
   &lt;/entity&gt;
@@ -159,6 +162,9 @@
     &lt;filter&gt;
       &lt;condition attribute="operation" operator="neq" value="4" /&gt;
       &lt;condition attribute="userid" operator="eq" value="{0}" /&gt;
+      &lt;condition attribute="createdon" operator="ge" value="{3}" /&gt;
+      &lt;condition attribute="createdon" operator="le" value="{4}" /&gt;
+
     &lt;/filter&gt;
     &lt;order attribute="createdon" descending="true" /&gt;
   &lt;/entity&gt;

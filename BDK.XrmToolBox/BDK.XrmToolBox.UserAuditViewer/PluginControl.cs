@@ -103,6 +103,8 @@ namespace BDK.XrmToolBox.UserAuditViewer
         public PluginControl()
         {
             InitializeComponent();
+            startDate.Value = DateTime.Now.AddMonths(-1);
+            endDate.Value = DateTime.Now;
         }
         #endregion
 
@@ -225,14 +227,7 @@ namespace BDK.XrmToolBox.UserAuditViewer
                 {
                     EntityCollection result = ev.Result as EntityCollection;
                     List<CRMUser> data = new List<Model.CRMUser>();
-                    //Parallel.ForEach(result.Entities, (item) => {
-                    //    data.Add(new Model.CRMUser()
-                    //    {
-                    //        Username = item.Attributes.ContainsKey("domainname") ? item.Attributes["domainname"].ToString() : string.Empty,
-                    //        Name = item.Attributes.ContainsKey("fullname") ? item.Attributes["fullname"].ToString() : string.Empty,
-                    //        Id = item.Id.ToString()
-                    //    });
-                    //});
+                   
                     foreach (var item in result.Entities)
                     {
                         data.Add(new Model.CRMUser()
@@ -416,7 +411,10 @@ namespace BDK.XrmToolBox.UserAuditViewer
                 Message = "Retrieving user transaction history...",
                 Work = (w, ev) =>
                 {
-                    FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserTransactions, selectedUserId, pageUserTransaction, pageCookieUserTransaction));
+                    FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserTransactions, selectedUserId, 
+                                                pageUserTransaction, pageCookieUserTransaction, 
+                                                startDate.Value.ToString("yyyy-MM-dd"),
+                                                endDate.Value.ToString("yyyy-MM-dd")));
                     EntityCollection entitites = Service.RetrieveMultiple(query);
                     ev.Result = entitites;
                     pageCookieUserTransaction = entitites.PagingCookie.Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "'");
@@ -468,7 +466,10 @@ namespace BDK.XrmToolBox.UserAuditViewer
                 Message = "Retrieving user login history...",
                 Work = (w, ev) =>
                 {
-                    FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserLogin, selectedUserId, pageUserLogin, pageCookieUserLogin));
+                    FetchExpression query = new FetchExpression(string.Format(Settings.FetchXml_UserLogin, selectedUserId,
+                                        pageUserLogin, pageCookieUserLogin,
+                                        startDate.Value.ToString("yyyy-MM-dd"),
+                                                endDate.Value.ToString("yyyy-MM-dd")));
 
                     EntityCollection entitites = Service.RetrieveMultiple(query);
 
@@ -626,5 +627,29 @@ namespace BDK.XrmToolBox.UserAuditViewer
         }
 
         #endregion
+
+        private void startDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (startDate.Value > endDate.Value)
+                MessageBox.Show("Invalid date range. From date should be less than to date");
+        }
+
+        private void endDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (startDate.Value > endDate.Value)
+                MessageBox.Show("Invalid date range. From date should be less than to date");
+        }
+
+        private void btnFilterData_Click(object sender, EventArgs e)
+        {
+            if (startDate.Value > endDate.Value)
+            {
+                MessageBox.Show("Invalid date range. From date should be less than to date");
+                return;
+            }
+
+            BuildUserLoginGrid();
+            BuildUserTransactionGrid();
+        }
     }
 }

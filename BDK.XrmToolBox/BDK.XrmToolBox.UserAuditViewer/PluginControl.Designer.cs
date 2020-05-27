@@ -42,12 +42,15 @@
             this.cRMUserBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabLoginHistory = new System.Windows.Forms.TabPage();
+            this.btnPrevUserLogin = new System.Windows.Forms.Button();
+            this.btnNextUserLogin = new System.Windows.Forms.Button();
             this.gridLoginHistory = new System.Windows.Forms.DataGridView();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loginDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loginTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.auditUserLoginBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabTransactions = new System.Windows.Forms.TabPage();
+            this.btnNextUserTran = new System.Windows.Forms.Button();
             this.gridUserTransactions = new System.Windows.Forms.DataGridView();
             this.idDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.entityNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,11 +58,13 @@
             this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.operationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.auditTransactionBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.saveFile = new System.Windows.Forms.SaveFileDialog();
-            this.btnNextUserLogin = new System.Windows.Forms.Button();
-            this.btnPrevUserLogin = new System.Windows.Forms.Button();
-            this.btnNextUserTran = new System.Windows.Forms.Button();
             this.btnPrevUserTran = new System.Windows.Forms.Button();
+            this.saveFile = new System.Windows.Forms.SaveFileDialog();
+            this.startDate = new System.Windows.Forms.DateTimePicker();
+            this.endDate = new System.Windows.Forms.DateTimePicker();
+            this.lblToTime = new System.Windows.Forms.Label();
+            this.lblFromTime = new System.Windows.Forms.Label();
+            this.btnFilterData = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cRMUserBindingSource)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -82,7 +87,7 @@
             this.menuExport});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1599, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1199, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -91,7 +96,7 @@
             this.btnClose.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.Delete;
             this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(69, 24);
+            this.btnClose.Size = new System.Drawing.Size(60, 24);
             this.btnClose.Text = "Close";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -105,7 +110,7 @@
             this.btnLoadViews.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.AssemblySelected;
             this.btnLoadViews.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadViews.Name = "btnLoadViews";
-            this.btnLoadViews.Size = new System.Drawing.Size(108, 24);
+            this.btnLoadViews.Size = new System.Drawing.Size(90, 24);
             this.btnLoadViews.Text = "Load Views";
             this.btnLoadViews.Click += new System.EventHandler(this.btnLoadViews_Click);
             // 
@@ -114,7 +119,7 @@
             this.menuInactiveUsers.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.Organization;
             this.menuInactiveUsers.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuInactiveUsers.Name = "menuInactiveUsers";
-            this.menuInactiveUsers.Size = new System.Drawing.Size(123, 24);
+            this.menuInactiveUsers.Size = new System.Drawing.Size(103, 24);
             this.menuInactiveUsers.Text = "Inactive Users";
             this.menuInactiveUsers.Click += new System.EventHandler(this.menuInactiveUsers_Click);
             // 
@@ -126,20 +131,20 @@
             this.menuExport.Image = global::BDK.XrmToolBox.UserAuditViewer.Properties.Resources.UninstallProfiler;
             this.menuExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuExport.Name = "menuExport";
-            this.menuExport.Size = new System.Drawing.Size(91, 24);
+            this.menuExport.Size = new System.Drawing.Size(77, 24);
             this.menuExport.Text = "Export";
             // 
             // loginHistoryToolStripMenuItem
             // 
             this.loginHistoryToolStripMenuItem.Name = "loginHistoryToolStripMenuItem";
-            this.loginHistoryToolStripMenuItem.Size = new System.Drawing.Size(172, 26);
+            this.loginHistoryToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.loginHistoryToolStripMenuItem.Text = "Login History";
             this.loginHistoryToolStripMenuItem.Click += new System.EventHandler(this.loginHistoryToolStripMenuItem_Click);
             // 
             // transactionToolStripMenuItem
             // 
             this.transactionToolStripMenuItem.Name = "transactionToolStripMenuItem";
-            this.transactionToolStripMenuItem.Size = new System.Drawing.Size(172, 26);
+            this.transactionToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.transactionToolStripMenuItem.Text = "Transaction";
             this.transactionToolStripMenuItem.Click += new System.EventHandler(this.transactionToolStripMenuItem_Click);
             // 
@@ -147,10 +152,9 @@
             // 
             this.ddluserViews.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ddluserViews.FormattingEnabled = true;
-            this.ddluserViews.Location = new System.Drawing.Point(4, 34);
-            this.ddluserViews.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ddluserViews.Location = new System.Drawing.Point(3, 28);
             this.ddluserViews.Name = "ddluserViews";
-            this.ddluserViews.Size = new System.Drawing.Size(325, 24);
+            this.ddluserViews.Size = new System.Drawing.Size(245, 21);
             this.ddluserViews.TabIndex = 1;
             this.ddluserViews.SelectedIndexChanged += new System.EventHandler(this.ddluserViews_SelectedIndexChanged);
             // 
@@ -159,11 +163,9 @@
             this.listUsers.DataSource = this.cRMUserBindingSource;
             this.listUsers.DisplayMember = "Name";
             this.listUsers.FormattingEnabled = true;
-            this.listUsers.ItemHeight = 16;
-            this.listUsers.Location = new System.Drawing.Point(4, 84);
-            this.listUsers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listUsers.Location = new System.Drawing.Point(3, 68);
             this.listUsers.Name = "listUsers";
-            this.listUsers.Size = new System.Drawing.Size(325, 516);
+            this.listUsers.Size = new System.Drawing.Size(245, 420);
             this.listUsers.TabIndex = 2;
             this.listUsers.ValueMember = "Id";
             this.listUsers.SelectedIndexChanged += new System.EventHandler(this.listUsers_SelectedIndexChanged);
@@ -176,11 +178,10 @@
             // 
             this.tabControl1.Controls.Add(this.tabLoginHistory);
             this.tabControl1.Controls.Add(this.tabTransactions);
-            this.tabControl1.Location = new System.Drawing.Point(393, 84);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Location = new System.Drawing.Point(295, 68);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1201, 567);
+            this.tabControl1.Size = new System.Drawing.Size(901, 461);
             this.tabControl1.TabIndex = 5;
             // 
             // tabLoginHistory
@@ -188,14 +189,35 @@
             this.tabLoginHistory.Controls.Add(this.btnPrevUserLogin);
             this.tabLoginHistory.Controls.Add(this.btnNextUserLogin);
             this.tabLoginHistory.Controls.Add(this.gridLoginHistory);
-            this.tabLoginHistory.Location = new System.Drawing.Point(4, 25);
-            this.tabLoginHistory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabLoginHistory.Location = new System.Drawing.Point(4, 22);
             this.tabLoginHistory.Name = "tabLoginHistory";
-            this.tabLoginHistory.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabLoginHistory.Size = new System.Drawing.Size(1193, 538);
+            this.tabLoginHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabLoginHistory.Size = new System.Drawing.Size(893, 435);
             this.tabLoginHistory.TabIndex = 0;
             this.tabLoginHistory.Text = "Login History";
             this.tabLoginHistory.UseVisualStyleBackColor = true;
+            // 
+            // btnPrevUserLogin
+            // 
+            this.btnPrevUserLogin.Location = new System.Drawing.Point(806, 405);
+            this.btnPrevUserLogin.Margin = new System.Windows.Forms.Padding(2);
+            this.btnPrevUserLogin.Name = "btnPrevUserLogin";
+            this.btnPrevUserLogin.Size = new System.Drawing.Size(31, 19);
+            this.btnPrevUserLogin.TabIndex = 7;
+            this.btnPrevUserLogin.Text = "<<";
+            this.btnPrevUserLogin.UseVisualStyleBackColor = true;
+            this.btnPrevUserLogin.Click += new System.EventHandler(this.btnPrevUserLogin_Click);
+            // 
+            // btnNextUserLogin
+            // 
+            this.btnNextUserLogin.Location = new System.Drawing.Point(856, 405);
+            this.btnNextUserLogin.Margin = new System.Windows.Forms.Padding(2);
+            this.btnNextUserLogin.Name = "btnNextUserLogin";
+            this.btnNextUserLogin.Size = new System.Drawing.Size(31, 19);
+            this.btnNextUserLogin.TabIndex = 6;
+            this.btnNextUserLogin.Text = ">>";
+            this.btnNextUserLogin.UseVisualStyleBackColor = true;
+            this.btnNextUserLogin.Click += new System.EventHandler(this.btnNextUserLogin_Click);
             // 
             // gridLoginHistory
             // 
@@ -210,11 +232,10 @@
             this.loginDateDataGridViewTextBoxColumn,
             this.loginTimeDataGridViewTextBoxColumn});
             this.gridLoginHistory.DataSource = this.auditUserLoginBindingSource;
-            this.gridLoginHistory.Location = new System.Drawing.Point(4, 4);
-            this.gridLoginHistory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gridLoginHistory.Location = new System.Drawing.Point(3, 3);
             this.gridLoginHistory.Name = "gridLoginHistory";
             this.gridLoginHistory.ReadOnly = true;
-            this.gridLoginHistory.Size = new System.Drawing.Size(1179, 478);
+            this.gridLoginHistory.Size = new System.Drawing.Size(884, 388);
             this.gridLoginHistory.TabIndex = 0;
             // 
             // idDataGridViewTextBoxColumn
@@ -247,14 +268,24 @@
             this.tabTransactions.Controls.Add(this.btnNextUserTran);
             this.tabTransactions.Controls.Add(this.gridUserTransactions);
             this.tabTransactions.Controls.Add(this.btnPrevUserTran);
-            this.tabTransactions.Location = new System.Drawing.Point(4, 25);
-            this.tabTransactions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabTransactions.Location = new System.Drawing.Point(4, 22);
             this.tabTransactions.Name = "tabTransactions";
-            this.tabTransactions.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabTransactions.Size = new System.Drawing.Size(1193, 538);
+            this.tabTransactions.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTransactions.Size = new System.Drawing.Size(893, 435);
             this.tabTransactions.TabIndex = 1;
             this.tabTransactions.Text = "Transactions";
             this.tabTransactions.UseVisualStyleBackColor = true;
+            // 
+            // btnNextUserTran
+            // 
+            this.btnNextUserTran.Location = new System.Drawing.Point(806, 404);
+            this.btnNextUserTran.Margin = new System.Windows.Forms.Padding(2);
+            this.btnNextUserTran.Name = "btnNextUserTran";
+            this.btnNextUserTran.Size = new System.Drawing.Size(31, 19);
+            this.btnNextUserTran.TabIndex = 9;
+            this.btnNextUserTran.Text = "<<";
+            this.btnNextUserTran.UseVisualStyleBackColor = true;
+            this.btnNextUserTran.Click += new System.EventHandler(this.btnNextUserTran_Click);
             // 
             // gridUserTransactions
             // 
@@ -271,11 +302,10 @@
             this.dateDataGridViewTextBoxColumn,
             this.operationDataGridViewTextBoxColumn});
             this.gridUserTransactions.DataSource = this.auditTransactionBindingSource;
-            this.gridUserTransactions.Location = new System.Drawing.Point(8, 4);
-            this.gridUserTransactions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gridUserTransactions.Location = new System.Drawing.Point(6, 3);
             this.gridUserTransactions.Name = "gridUserTransactions";
             this.gridUserTransactions.ReadOnly = true;
-            this.gridUserTransactions.Size = new System.Drawing.Size(1175, 474);
+            this.gridUserTransactions.Size = new System.Drawing.Size(881, 385);
             this.gridUserTransactions.TabIndex = 0;
             // 
             // idDataGridViewTextBoxColumn1
@@ -317,61 +347,86 @@
             // 
             this.auditTransactionBindingSource.DataSource = typeof(BDK.XrmToolBox.UserAuditViewer.Model.AuditTransaction);
             // 
-            // saveFile
-            // 
-            this.saveFile.Filter = "Excel files (*.xls)|*.xlsx";
-            // 
-            // btnNextUserLogin
-            // 
-            this.btnNextUserLogin.Location = new System.Drawing.Point(1142, 498);
-            this.btnNextUserLogin.Name = "btnNextUserLogin";
-            this.btnNextUserLogin.Size = new System.Drawing.Size(41, 23);
-            this.btnNextUserLogin.TabIndex = 6;
-            this.btnNextUserLogin.Text = ">>";
-            this.btnNextUserLogin.UseVisualStyleBackColor = true;
-            this.btnNextUserLogin.Click += new System.EventHandler(this.btnNextUserLogin_Click);
-            // 
-            // btnPrevUserLogin
-            // 
-            this.btnPrevUserLogin.Location = new System.Drawing.Point(1075, 498);
-            this.btnPrevUserLogin.Name = "btnPrevUserLogin";
-            this.btnPrevUserLogin.Size = new System.Drawing.Size(41, 23);
-            this.btnPrevUserLogin.TabIndex = 7;
-            this.btnPrevUserLogin.Text = "<<";
-            this.btnPrevUserLogin.UseVisualStyleBackColor = true;
-            this.btnPrevUserLogin.Click += new System.EventHandler(this.btnPrevUserLogin_Click);
-            // 
-            // btnNextUserTran
-            // 
-            this.btnNextUserTran.Location = new System.Drawing.Point(1075, 497);
-            this.btnNextUserTran.Name = "btnNextUserTran";
-            this.btnNextUserTran.Size = new System.Drawing.Size(41, 23);
-            this.btnNextUserTran.TabIndex = 9;
-            this.btnNextUserTran.Text = "<<";
-            this.btnNextUserTran.UseVisualStyleBackColor = true;
-            this.btnNextUserTran.Click += new System.EventHandler(this.btnNextUserTran_Click);
-            // 
             // btnPrevUserTran
             // 
-            this.btnPrevUserTran.Location = new System.Drawing.Point(1142, 497);
+            this.btnPrevUserTran.Location = new System.Drawing.Point(856, 404);
+            this.btnPrevUserTran.Margin = new System.Windows.Forms.Padding(2);
             this.btnPrevUserTran.Name = "btnPrevUserTran";
-            this.btnPrevUserTran.Size = new System.Drawing.Size(41, 23);
+            this.btnPrevUserTran.Size = new System.Drawing.Size(31, 19);
             this.btnPrevUserTran.TabIndex = 8;
             this.btnPrevUserTran.Text = ">>";
             this.btnPrevUserTran.UseVisualStyleBackColor = true;
             this.btnPrevUserTran.Click += new System.EventHandler(this.btnPrevUserTran_Click);
             // 
+            // saveFile
+            // 
+            this.saveFile.Filter = "Excel files (*.xls)|*.xlsx";
+            // 
+            // startDate
+            // 
+            this.startDate.CustomFormat = "dd-MMM-yyyy";
+            this.startDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.startDate.Location = new System.Drawing.Point(411, 28);
+            this.startDate.Name = "startDate";
+            this.startDate.Size = new System.Drawing.Size(139, 20);
+            this.startDate.TabIndex = 6;
+            this.startDate.ValueChanged += new System.EventHandler(this.startDate_ValueChanged);
+            // 
+            // endDate
+            // 
+            this.endDate.CustomFormat = "dd-MMM-yyyy";
+            this.endDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.endDate.Location = new System.Drawing.Point(621, 27);
+            this.endDate.Name = "endDate";
+            this.endDate.Size = new System.Drawing.Size(128, 20);
+            this.endDate.TabIndex = 7;
+            this.endDate.ValueChanged += new System.EventHandler(this.endDate_ValueChanged);
+            // 
+            // lblToTime
+            // 
+            this.lblToTime.AutoSize = true;
+            this.lblToTime.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this.lblToTime.Location = new System.Drawing.Point(582, 30);
+            this.lblToTime.Name = "lblToTime";
+            this.lblToTime.Size = new System.Drawing.Size(23, 17);
+            this.lblToTime.TabIndex = 8;
+            this.lblToTime.Text = "To";
+            // 
+            // lblFromTime
+            // 
+            this.lblFromTime.AutoSize = true;
+            this.lblFromTime.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFromTime.Location = new System.Drawing.Point(357, 28);
+            this.lblFromTime.Name = "lblFromTime";
+            this.lblFromTime.Size = new System.Drawing.Size(40, 17);
+            this.lblFromTime.TabIndex = 9;
+            this.lblFromTime.Text = "From";
+            // 
+            // btnFilterData
+            // 
+            this.btnFilterData.Location = new System.Drawing.Point(772, 28);
+            this.btnFilterData.Name = "btnFilterData";
+            this.btnFilterData.Size = new System.Drawing.Size(75, 23);
+            this.btnFilterData.TabIndex = 10;
+            this.btnFilterData.Text = "Filter";
+            this.btnFilterData.UseVisualStyleBackColor = true;
+            this.btnFilterData.Click += new System.EventHandler(this.btnFilterData_Click);
+            // 
             // PluginControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnFilterData);
+            this.Controls.Add(this.lblFromTime);
+            this.Controls.Add(this.lblToTime);
+            this.Controls.Add(this.endDate);
+            this.Controls.Add(this.startDate);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.listUsers);
             this.Controls.Add(this.ddluserViews);
             this.Controls.Add(this.toolStrip1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "PluginControl";
-            this.Size = new System.Drawing.Size(1599, 724);
+            this.Size = new System.Drawing.Size(1199, 588);
             this.Load += new System.EventHandler(this.PluginControl_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -421,5 +476,10 @@
         private System.Windows.Forms.Button btnNextUserLogin;
         private System.Windows.Forms.Button btnNextUserTran;
         private System.Windows.Forms.Button btnPrevUserTran;
+        private System.Windows.Forms.DateTimePicker startDate;
+        private System.Windows.Forms.DateTimePicker endDate;
+        private System.Windows.Forms.Label lblToTime;
+        private System.Windows.Forms.Label lblFromTime;
+        private System.Windows.Forms.Button btnFilterData;
     }
 }
