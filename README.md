@@ -1,3 +1,7 @@
+# This is not maintained anymore, if you need the issue to be fixed please contact me deepakkumar1984@gmail.com for price quote. Thanks
+
+
+
 # XrmToolBox plugins
 
 Following are the plugin being offered from this repo:
