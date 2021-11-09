@@ -174,6 +174,7 @@ namespace BDK.XrmToolBox.RecycleBin
                             RetrieveAuditDetailsRequest auditDetailRequest = new RetrieveAuditDetailsRequest();
                             auditDetailRequest.AuditId = item.Id;
                             RetrieveAuditDetailsResponse response = (RetrieveAuditDetailsResponse)Service.Execute(auditDetailRequest);
+                            if (!(response.AuditDetail is AttributeAuditDetail)) continue; 
                             AttributeAuditDetail attributeDetail = (AttributeAuditDetail)response.AuditDetail;
                             EntityMetadata metadata = entityMetadataList.FirstOrDefault(x => (x.ObjectTypeCode == selectedEntity.Item1));
                             AuditItem auditItem = new Model.AuditItem()
