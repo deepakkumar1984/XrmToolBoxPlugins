@@ -129,10 +129,8 @@
     &lt;attribute name="auditid" /&gt;
     &lt;filter type="and" &gt;
       &lt;condition attribute="operation" operator="eq" value="3" /&gt;
-      &lt;condition attribute="createdon" operator="between" &gt;
-        &lt;value&gt;{0}&lt;/value&gt;
-        &lt;value&gt;{1}&lt;/value&gt;
-      &lt;/condition&gt;
+      &lt;condition attribute="createdon" operator="ge" value="{0}" /&gt;
+      &lt;condition attribute="createdon" operator="lt" value="{1}" /&gt;
       &lt;condition attribute="objecttypecode" operator="eq" value="{2}" /&gt;
       &lt;condition attribute="userid" operator="eq" value="{3}" /&gt;
     &lt;/filter&gt;
@@ -155,10 +153,8 @@
     &lt;attribute name="objectidname" /&gt;
     &lt;filter type="and" &gt;
       &lt;condition attribute="operation" operator="eq" value="3" /&gt;
-      &lt;condition attribute="createdon" operator="between" &gt;
-        &lt;value&gt;{0}&lt;/value&gt;
-        &lt;value&gt;{1}&lt;/value&gt;
-      &lt;/condition&gt;
+      &lt;condition attribute="createdon" operator="ge" value="{0}" /&gt;
+      &lt;condition attribute="createdon" operator="lt" value="{1}" /&gt;
       &lt;condition attribute="objecttypecode" operator="eq" value="{2}" /&gt;
     &lt;/filter&gt;
   &lt;/entity&gt;

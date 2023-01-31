@@ -19,7 +19,7 @@ namespace BDK.XrmToolBox.RecycleBin {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class FetchXml {
@@ -72,9 +72,8 @@ namespace BDK.XrmToolBox.RecycleBin {
         ///    &lt;attribute name=&quot;auditid&quot; /&gt;
         ///    &lt;filter type=&quot;and&quot; &gt;
         ///      &lt;condition attribute=&quot;operation&quot; operator=&quot;eq&quot; value=&quot;3&quot; /&gt;
-        ///      &lt;condition attribute=&quot;createdon&quot; operator=&quot;between&quot; &gt;
-        ///        &lt;value&gt;{0}&lt;/value&gt;
-        ///        &lt;value&gt;{1}&lt;/ [rest of string was truncated]&quot;;.
+        ///      &lt;condition attribute=&quot;createdon&quot; operator=&quot;ge&quot; value=&quot;{0}&quot; /&gt;
+        ///      &lt;condition attribute=&quot;createdon&quot; o [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DeleteAuditLogsByUser {
             get {
