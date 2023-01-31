@@ -193,6 +193,7 @@
     <EmbeddedResource Include="FetchXml.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FetchXml.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PluginControl.resx">
       <DependentUpon>PluginControl.cs</DependentUpon>
